@@ -201,7 +201,7 @@ export default function TestScreen() {
 
           <div className="input-area">
             <div className={`input-box ${feedback === 'correct' ? 'input-box-correct' : ''} ${feedback === 'wrong' ? 'input-box-wrong' : ''}`}>
-              <span className="input-text">{input || ''}</span>
+              <span className="input-text">{input || '\u00A0'}</span>
               <div className="cursor" />
             </div>
             <div className="feedback-area">

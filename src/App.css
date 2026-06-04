@@ -408,6 +408,8 @@ html, body, #root {
   border: 2px solid #e5e7eb;
   min-width: 120px;
   justify-content: center;
+  height: 64px;
+  box-sizing: border-box;
 }
 
 .input-box-correct {
@@ -427,6 +429,7 @@ html, body, #root {
   font-family: monospace;
   min-width: 20px;
   text-align: center;
+  line-height: 1;
 }
 
 .cursor {
@@ -1195,9 +1198,10 @@ html, body, #root {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding: 0 20px;
+  justify-content: flex-start;
+  padding-top: 15vh;
 }
 
 .memory-intro {

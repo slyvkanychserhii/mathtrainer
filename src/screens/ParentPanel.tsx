@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { colors } from '../types';
 import { TASK_GROUPS, TASKS } from '../data/tasks';
-import { getTaskConfigs, updateTaskConfig, getExamplesCount, setExamplesCount, getSoundEnabled, setSoundEnabled as storeSetSoundEnabled, clearSessions, type TaskConfig } from '../data/store';
+import { getTaskConfigs, updateTaskConfig, getExamplesCount, setExamplesCount, getSoundEnabled, setSoundEnabled as storeSetSoundEnabled, getMemoryMode, setMemoryMode, getMemorySeconds, setMemorySeconds, clearSessions, type TaskConfig } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 
 export default function ParentPanel() {
@@ -11,15 +11,21 @@ export default function ParentPanel() {
   const [configs, setConfigs] = useState<TaskConfig[] | null>(null);
   const [count, setCount] = useState(10);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [memoryMode, setMemoryModeState] = useState(false);
+  const [memorySeconds, setMemorySecondsState] = useState(1.5);
   const [langModalVisible, setLangModalVisible] = useState(false);
 
   useEffect(() => {
     const c = getTaskConfigs();
     const n = getExamplesCount();
     const s = getSoundEnabled();
+    const mm = getMemoryMode();
+    const ms = getMemorySeconds();
     setConfigs(c);
     setCount(n);
     setSoundEnabled(s);
+    setMemoryModeState(mm);
+    setMemorySecondsState(ms);
   }, []);
 
   const toggleTask = (taskId: number) => {
@@ -50,8 +56,20 @@ export default function ParentPanel() {
     storeSetSoundEnabled(next);
   };
 
+  const toggleMemoryMode = () => {
+    const next = !memoryMode;
+    setMemoryModeState(next);
+    setMemoryMode(next);
+  };
+
+  const changeMemorySeconds = (delta: number) => {
+    const newVal = Math.min(10, Math.max(0.5, +(memorySeconds + delta).toFixed(1)));
+    setMemorySecondsState(newVal);
+    setMemorySeconds(newVal);
+  };
+
   const handleResetStats = () => {
-    if (window.confirm('Все результаты будут удалены. Продолжить?')) {
+    if (window.confirm(t('parent.resetConfirm'))) {
       clearSessions();
     }
   };
@@ -101,6 +119,24 @@ export default function ParentPanel() {
               <button className="stepper-btn" onClick={() => changeCount(5)}>+</button>
             </div>
           </div>
+
+          <div className="setting-card" style={{ cursor: 'default' }}>
+            <span className="setting-label">{t('parent.memoryMode')}</span>
+            <button className={`toggle ${memoryMode ? 'toggle-on' : ''}`} onClick={toggleMemoryMode}>
+              <div className="toggle-knob" />
+            </button>
+          </div>
+
+          {memoryMode && (
+            <div className="setting-card" style={{ cursor: 'default' }}>
+              <span className="setting-label">{t('parent.memorySeconds')}</span>
+              <div className="stepper">
+                <button className="stepper-btn" onClick={() => changeMemorySeconds(-0.5)}>−</button>
+                <span className="stepper-value">{memorySeconds % 1 === 0 ? memorySeconds : memorySeconds.toFixed(1)}</span>
+                <button className="stepper-btn" onClick={() => changeMemorySeconds(0.5)}>+</button>
+              </div>
+            </div>
+          )}
 
           <div className="setting-card">
             <span className="setting-label">{t('parent.statistics')}</span>

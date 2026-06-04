@@ -2,12 +2,14 @@
 
 A progressive web app (PWA) for practicing mental arithmetic. Designed for kids in grades 1–4, with 55 task types, 8 languages, and detailed statistics.
 
+**Live:** [slyvkanychserhii.github.io/mathtrainer](https://slyvkanychserhii.github.io/mathtrainer/)
+
 ## Features
 
 - 55 task types — addition, subtraction, multiplication, division across different digit ranges
 - 8 languages — Russian, English, Spanish, French, German, Italian, Portuguese, Ukrainian
 - Statistics — daily contribution graph, streak tracking, hourly activity, per-test breakdown
-- Parent panel — PIN-protected settings to enable/disable tasks, adjust rounds count, toggle sound, reset stats
+- Parent panel — PIN-protected settings to enable/disable tasks, adjust rounds count, toggle sound, memory mode (task vanishes after N seconds), reset stats
 - PWA — installable on iPad/phone home screen, works offline
 - Sound effects, custom numpad, shake/spring animations
 

@@ -38,6 +38,8 @@ const KEYS = {
   SESSIONS: 'matemagic_sessions',
   EXAMPLES_COUNT: 'matemagic_examples_count',
   SOUND_ENABLED: 'matemagic_sound_enabled',
+  MEMORY_MODE: 'matemagic_memory_mode',
+  MEMORY_SECONDS: 'matemagic_memory_seconds',
 };
 
 function getItem(key: string): string | null {
@@ -84,12 +86,32 @@ export function setExamplesCount(count: number): void {
   setItem(KEYS.EXAMPLES_COUNT, String(count));
 }
 
+export function getMemoryMode(): boolean {
+  const raw = getItem(KEYS.MEMORY_MODE);
+  return raw === null ? false : raw === '1';
+}
+
+export function setMemoryMode(mode: boolean): void {
+  setItem(KEYS.MEMORY_MODE, mode ? '1' : '0');
+}
+
+export function getMemorySeconds(): number {
+  const raw = getItem(KEYS.MEMORY_SECONDS);
+  if (!raw) return 1.5;
+  const n = parseFloat(raw);
+  return isNaN(n) ? 1.5 : Math.max(0.5, Math.min(10, n));
+}
+
+export function setMemorySeconds(seconds: number): void {
+  setItem(KEYS.MEMORY_SECONDS, String(seconds));
+}
+
 export function getTaskConfigs(): TaskConfig[] {
   const raw = getItem(KEYS.TASK_CONFIGS);
   if (!raw) {
     const defaults: TaskConfig[] = [];
     for (let i = 1; i <= 55; i++) {
-      defaults.push({ taskId: i, enabled: [1, 5, 9, 15, 19, 27, 38].includes(i) });
+      defaults.push({ taskId: i, enabled: true });
     }
     saveTaskConfigs(defaults);
     return defaults;
@@ -98,7 +120,7 @@ export function getTaskConfigs(): TaskConfig[] {
   const existingIds = new Set(configs.map(c => c.taskId));
   for (let i = 1; i <= 55; i++) {
     if (!existingIds.has(i)) {
-      configs.push({ taskId: i, enabled: [1, 5, 9, 15, 19, 27, 38].includes(i) });
+      configs.push({ taskId: i, enabled: true });
     }
   }
   if (configs.length > existingIds.size) {

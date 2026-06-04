@@ -51,7 +51,7 @@ export default function TestListScreen() {
     const statsMap = new Map(dailyStats.map(s => [s.date, s]));
     const now = new Date();
     const end = new Date(now);
-    const maxCols = Math.max(1, Math.floor((containerW - 48) / COL_W) + 4);
+    const maxCols = Math.max(1, Math.floor((containerW - 48) / COL_W));
 
     const start = new Date(now);
     start.setDate(start.getDate() - maxCols * 7);
@@ -64,8 +64,17 @@ export default function TestListScreen() {
       start.setMonth(start.getMonth() + 1);
       start.setDate(1);
     }
+    start.setMonth(start.getMonth() + 1);
+    if (start > now) start.setMonth(start.getMonth() - 1);
     const gridStart = new Date(start);
     gridStart.setDate(gridStart.getDate() - ((gridStart.getDay() + 6) % 7));
+
+    const activeCounts = dailyStats.filter(s => s.totalCount > 0).map(s => s.totalCount).sort((a, b) => a - b);
+    const len = activeCounts.length;
+    const q1 = len > 0 ? activeCounts[Math.floor(len * 0.25)] : 1;
+    const q2 = len > 0 ? activeCounts[Math.floor(len * 0.5)] : 3;
+    const q3 = len > 0 ? activeCounts[Math.floor(len * 0.75)] : 8;
+
     const cur = new Date(gridStart);
     while (true) {
       const week: { date: string; level: number; empty: boolean }[] = [];
@@ -77,9 +86,9 @@ export default function TestListScreen() {
         if (stat && !empty) {
           const n = stat.totalCount;
           if (n > 0) level = 1;
-          if (n >= 5) level = 2;
-          if (n >= 15) level = 3;
-          if (n >= 30) level = 4;
+          if (n >= q1) level = 2;
+          if (n >= q2) level = 3;
+          if (n >= q3) level = 4;
         }
         week.push({ date: ds, level, empty });
         cur.setDate(cur.getDate() + 1);
@@ -113,8 +122,8 @@ export default function TestListScreen() {
       <div className="header">
         <span className="header-title">{t('app.title')}</span>
         <div className="header-buttons">
-          <button className="header-btn" onClick={() => navigate('/stats')}>{t('header.stats')}</button>
-          <button className="header-btn" onClick={() => navigate('/pin')}>{t('header.settings')}</button>
+          <button className="header-btn" onClick={() => navigate('/stats')}>📊 {t('header.stats')}</button>
+          <button className="header-btn" onClick={() => navigate('/pin')}>⚙️ {t('header.settings')}</button>
         </div>
       </div>
 

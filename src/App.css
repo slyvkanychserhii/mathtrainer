@@ -28,32 +28,43 @@ html, body, #root {
 
 .header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 16px 20px;
+  padding: 12px 20px 8px;
   background: #fff;
   border-bottom: 1px solid #e5e7eb;
+  gap: 4px;
 }
 
 .header-title {
   font-size: 24px;
   font-weight: 700;
   color: #6366f1;
+  text-align: center;
 }
 
 .header-buttons {
   display: flex;
-  gap: 16px;
+  gap: 20px;
 }
 
 .header-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 15px;
   color: #6366f1;
   font-weight: 600;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.header-btn:active {
+  background: #eef2ff;
 }
 
 .back-btn {
@@ -437,6 +448,16 @@ html, body, #root {
   font-weight: 700;
   color: #1f2937;
   font-family: monospace;
+}
+
+.expression-text-hidden {
+  visibility: hidden;
+}
+
+.expression-memory-icon {
+  font-size: 36px;
+  text-align: center;
+  line-height: 1.2;
 }
 
 /* Task groups */
@@ -1177,6 +1198,40 @@ html, body, #root {
   justify-content: center;
   align-items: center;
   padding: 0 20px;
+}
+
+.memory-intro {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 32px;
+  text-align: center;
+}
+
+.memory-intro-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+.memory-intro-btn {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  background: #6366f1;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 48px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.memory-intro-btn:active {
+  background: #4f46e5;
 }
 
 .equals-text {

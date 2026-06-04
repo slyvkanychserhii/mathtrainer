@@ -63,8 +63,9 @@ export default function TestScreen() {
     }
     setExamples(newExamples);
 
-    audioCorrectRef.current = new Audio('/sounds/correct.wav');
-    audioWrongRef.current = new Audio('/sounds/wrong.wav');
+    const base = import.meta.env.BASE_URL || '/';
+    audioCorrectRef.current = new Audio(`${base}sounds/correct.wav`);
+    audioWrongRef.current = new Audio(`${base}sounds/wrong.wav`);
     if (audioCorrectRef.current) audioCorrectRef.current.volume = 0.6;
     if (audioWrongRef.current) audioWrongRef.current.volume = 0.5;
   }, []);

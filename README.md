@@ -35,7 +35,39 @@ Open http://localhost:5173.
 npm run build
 ```
 
-Output in `dist/` — deployable to any static host (Netlify, Vercel, GitHub Pages, etc.).
+Output in `dist/` — deployable to any static host.
+
+## Deploy to GitHub Pages
+
+### First time
+
+1. Push the project to GitHub:
+   ```bash
+   git remote add origin git@github.com:slyvkanychserhii/mathtrainer.git
+   git push -u origin main
+   ```
+2. Deploy:
+   ```bash
+   npm run deploy
+   ```
+3. Go to `Settings → Pages` on GitHub, set **Source** to `Deploy from a branch`, branch `gh-pages`, folder `/ (root)`.
+4. Wait 1–2 minutes, then open `https://slyvkanychserhii.github.io/mathtrainer/`.
+
+### Update after changes
+
+```bash
+npm run deploy
+```
+
+This builds the project and pushes `dist/` to the `gh-pages` branch. GitHub Pages auto-updates within a minute.
+
+## Install on iPad
+
+1. Open `https://slyvkanychserhii.github.io/mathtrainer/` in Safari.
+2. Tap **Share** (square with arrow).
+3. Tap **Add to Home Screen**.
+4. Tap **Add**.
+5. Open from home screen — it launches full-screen without browser chrome, works offline.
 
 ## PIN
 

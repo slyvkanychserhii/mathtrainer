@@ -35,7 +35,39 @@ npm run dev
 npm run build
 ```
 
-Результат в папке `dist/` — деплой на любой статический хостинг (Netlify, Vercel, GitHub Pages и т.д.).
+Результат в папке `dist/` — деплой на любой статический хостинг.
+
+## Деплой на GitHub Pages
+
+### В первый раз
+
+1. Залейте проект на GitHub:
+   ```bash
+   git remote add origin git@github.com:slyvkanychserhii/mathtrainer.git
+   git push -u origin main
+   ```
+2. Задеплойте:
+   ```bash
+   npm run deploy
+   ```
+3. Зайдите в `Settings → Pages` на GitHub, выберите **Source**: `Deploy from a branch`, ветку `gh-pages`, папку `/ (root)`.
+4. Подождите 1–2 минуты, откройте `https://slyvkanychserhii.github.io/mathtrainer/`.
+
+### Обновление после изменений
+
+```bash
+npm run deploy
+```
+
+Собирает проект и пушит `dist/` в ветку `gh-pages`. GitHub Pages обновляется в течение минуты.
+
+## Установка на iPad
+
+1. Откройте `https://slyvkanychserhii.github.io/mathtrainer/` в Safari.
+2. Нажмите **«Поделиться»** (квадрат со стрелкой).
+3. Нажмите **«На экран «Домой»**.
+4. Нажмите **«Добавить»**.
+5. Открывайте с рабочего стола — приложение запускается на весь экран, без адресной строки, работает офлайн.
 
 ## ПИН-код
 

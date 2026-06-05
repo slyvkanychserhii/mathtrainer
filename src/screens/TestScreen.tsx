@@ -304,7 +304,7 @@ export default function TestScreen() {
               <div className="expression-area">
                 <div className={shaking ? 'shake' : bouncing ? 'drop-bounce' : ''}>
                   {hidden && memoryModeRef.current ? (
-                    <div className="expression-memory-icon" onClick={handleReveal}>👀</div>
+                    <div className="expression-memory-icon" onClick={handleReveal}>🫣</div>
                   ) : (
                     <div className={`expression-text ${transitioning ? 'expression-text-hidden' : ''}`}>{example.a} {example.op} {example.b}</div>
                   )}

@@ -42,15 +42,15 @@ function hashPin(pin: string): string {
 }
 
 const KEYS = {
-  PIN: 'matemagic_pin',
-  TASK_CONFIGS: 'matemagic_task_configs',
-  SESSIONS: 'matemagic_sessions',
-  EXAMPLES_COUNT: 'matemagic_examples_count',
-  SOUND_ENABLED: 'matemagic_sound_enabled',
-  MEMORY_MODE: 'matemagic_memory_mode',
-  MEMORY_SECONDS: 'matemagic_memory_seconds',
-  TRANSITION_PAUSE: 'matemagic_transition_pause',
-  WRONG_EXAMPLES: 'matemagic_wrong_examples',
+  PIN: 'mathtrainer_pin',
+  TASK_CONFIGS: 'mathtrainer_task_configs',
+  SESSIONS: 'mathtrainer_sessions',
+  EXAMPLES_COUNT: 'mathtrainer_examples_count',
+  SOUND_ENABLED: 'mathtrainer_sound_enabled',
+  MEMORY_MODE: 'mathtrainer_memory_mode',
+  MEMORY_SECONDS: 'mathtrainer_memory_seconds',
+  TRANSITION_PAUSE: 'mathtrainer_transition_pause',
+  WRONG_EXAMPLES: 'mathtrainer_wrong_examples',
 };
 
 function getItem(key: string): string | null {

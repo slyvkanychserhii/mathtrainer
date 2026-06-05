@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { translations, SUPPORTED_LOCALES, type Locale } from './translations';
 
-const STORAGE_KEY = 'locale';
+const STORAGE_KEY = 'mathtrainer_locale';
 
 type Strings = typeof translations.en;
 

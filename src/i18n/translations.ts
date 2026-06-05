@@ -81,7 +81,7 @@ const ru = {
   'pin.error.wrong': 'Неверный ПИН-код',
   'pin.forgot': 'Забыли ПИН?',
   'pin.forgotAlertTitle': 'Сброс ПИН-кода',
-  'pin.forgotAlertMessage': 'Очистите данные сайта в настройках браузера (F12 → Application → Local Storage → удалить ключи matemagic_*).\nСтатистика будет потеряна.',
+  'pin.forgotAlertMessage': 'Очистите данные сайта в настройках браузера (F12 → Application → Local Storage → удалить ключи mathtrainer_*).\nСтатистика будет потеряна.',
 
   'parent.title': 'Настройки',
   'parent.taskTypes': 'Типы заданий',
@@ -244,7 +244,7 @@ const en: typeof ru = {
   'pin.error.wrong': 'Wrong PIN',
   'pin.forgot': 'Forgot PIN?',
   'pin.forgotAlertTitle': 'Reset PIN',
-  'pin.forgotAlertMessage': 'Clear site data in browser settings (F12 → Application → Local Storage → delete keys matemagic_*).\nStatistics will be lost.',
+  'pin.forgotAlertMessage': 'Clear site data in browser settings (F12 → Application → Local Storage → delete keys mathtrainer_*).\nStatistics will be lost.',
 
   'parent.title': 'Settings',
   'parent.taskTypes': 'Task Types',
@@ -399,7 +399,7 @@ const es: typeof ru = {
   'pin.error.wrong': 'PIN incorrecto',
   'pin.forgot': '¿Olvidaste el PIN?',
   'pin.forgotAlertTitle': 'Restablecer PIN',
-  'pin.forgotAlertMessage': 'Borre los datos del sitio en la configuración del navegador (F12 → Application → Local Storage → eliminar claves matemagic_*).\nSe perderán las estadísticas.',
+  'pin.forgotAlertMessage': 'Borre los datos del sitio en la configuración del navegador (F12 → Application → Local Storage → eliminar claves mathtrainer_*).\nSe perderán las estadísticas.',
 
   'parent.title': 'Ajustes',
   'parent.taskTypes': 'Tipos de tareas',
@@ -554,7 +554,7 @@ const fr: typeof ru = {
   'pin.error.wrong': 'Code PIN incorrect',
   'pin.forgot': 'PIN oublié ?',
   'pin.forgotAlertTitle': 'Réinitialiser le PIN',
-  'pin.forgotAlertMessage': 'Effacez les données du site dans les paramètres du navigateur (F12 → Application → Local Storage → supprimer les clés matemagic_*).\nLes statistiques seront perdues.',
+  'pin.forgotAlertMessage': 'Effacez les données du site dans les paramètres du navigateur (F12 → Application → Local Storage → supprimer les clés mathtrainer_*).\nLes statistiques seront perdues.',
 
   'parent.title': 'Paramètres',
   'parent.taskTypes': 'Types d\'exercices',
@@ -709,7 +709,7 @@ const de: typeof ru = {
   'pin.error.wrong': 'Falscher PIN',
   'pin.forgot': 'PIN vergessen?',
   'pin.forgotAlertTitle': 'PIN zurücksetzen',
-  'pin.forgotAlertMessage': 'Löschen Sie die Website-Daten in den Browsereinstellungen (F12 → Application → Local Storage → Schlüssel matemagic_* löschen).\nDie Statistiken gehen verloren.',
+  'pin.forgotAlertMessage': 'Löschen Sie die Website-Daten in den Browsereinstellungen (F12 → Application → Local Storage → Schlüssel mathtrainer_* löschen).\nDie Statistiken gehen verloren.',
 
   'parent.title': 'Einstellungen',
   'parent.taskTypes': 'Aufgabentypen',
@@ -864,7 +864,7 @@ const it: typeof ru = {
   'pin.error.wrong': 'PIN errato',
   'pin.forgot': 'PIN dimenticato?',
   'pin.forgotAlertTitle': 'Reimposta PIN',
-  'pin.forgotAlertMessage': 'Cancella i dati del sito nelle impostazioni del browser (F12 → Application → Local Storage → eliminare le chiavi matemagic_*).\nLe statistiche andranno perse.',
+  'pin.forgotAlertMessage': 'Cancella i dati del sito nelle impostazioni del browser (F12 → Application → Local Storage → eliminare le chiavi mathtrainer_*).\nLe statistiche andranno perse.',
 
   'parent.title': 'Impostazioni',
   'parent.taskTypes': 'Tipi di esercizi',
@@ -1019,7 +1019,7 @@ const pt: typeof ru = {
   'pin.error.wrong': 'PIN incorreto',
   'pin.forgot': 'Esqueceu o PIN?',
   'pin.forgotAlertTitle': 'Redefinir PIN',
-  'pin.forgotAlertMessage': 'Limpe os dados do site nas configurações do navegador (F12 → Application → Local Storage → excluir chaves matemagic_*).\nAs estatísticas serão perdidas.',
+  'pin.forgotAlertMessage': 'Limpe os dados do site nas configurações do navegador (F12 → Application → Local Storage → excluir chaves mathtrainer_*).\nAs estatísticas serão perdidas.',
 
   'parent.title': 'Configurações',
   'parent.taskTypes': 'Tipos de tarefas',
@@ -1171,7 +1171,7 @@ const uk: typeof ru = {
   'pin.error.wrong': 'Невірний ПІН-код',
   'pin.forgot': 'Забули ПІН?',
   'pin.forgotAlertTitle': 'Скидання ПІН-коду',
-  'pin.forgotAlertMessage': 'Очистіть дані сайту в налаштуваннях браузера (F12 → Application → Local Storage → видалити ключі matemagic_*).\nСтатистика буде втрачена.',
+  'pin.forgotAlertMessage': 'Очистіть дані сайту в налаштуваннях браузера (F12 → Application → Local Storage → видалити ключі mathtrainer_*).\nСтатистика буде втрачена.',
 
   'parent.title': 'Налаштування',
   'parent.taskTypes': 'Типи завдань',

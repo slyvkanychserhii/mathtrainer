@@ -74,4 +74,4 @@ This builds the project and pushes `dist/` to the `gh-pages` branch. GitHub Page
 
 ## PIN
 
-Set on first Settings entry. If forgotten, clear site data via DevTools (`F12` → Application → Local Storage → delete keys `matemagic_*`).
+Set on first Settings entry. If forgotten, clear site data via DevTools (`F12` → Application → Local Storage → delete keys `mathtrainer_*`).

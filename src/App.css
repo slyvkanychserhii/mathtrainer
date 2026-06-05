@@ -472,9 +472,16 @@ html, body, #root {
 }
 
 .expression-memory-icon {
-  font-size: 36px;
+  font-size: 48px;
   text-align: center;
   line-height: 1.2;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s;
+}
+
+.expression-memory-icon:active {
+  transform: scale(0.85);
 }
 
 /* Task groups */

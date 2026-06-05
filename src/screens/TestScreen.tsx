@@ -59,6 +59,20 @@ export default function TestScreen() {
   const memorySecondsRef = useRef(1);
   const transitionPauseRef = useRef(1);
   const noMistakesRef = useRef(false);
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const startHideTimer = useCallback(() => {
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    if (memoryModeRef.current && feedback === null) {
+      hideTimerRef.current = setTimeout(() => setHidden(true), memorySecondsRef.current * 1000);
+    }
+  }, [feedback]);
+
+  const handleReveal = useCallback(() => {
+    setHidden(false);
+    startHideTimer();
+  }, [startHideTimer]);
+
   const handleBack = useCallback(() => {
     if (resultsRef.current.length > 0 && !window.confirm(t('test.confirmExit'))) return;
     navigate(-1);
@@ -226,6 +240,10 @@ export default function TestScreen() {
     return () => clearTimeout(timer);
   }, [showIntro]);
 
+  useEffect(() => {
+    return () => { if (hideTimerRef.current) clearTimeout(hideTimerRef.current); };
+  }, []);
+
   const startTimeRef = useRef(Date.now());
   useEffect(() => {
     startTimeRef.current = Date.now();
@@ -234,11 +252,9 @@ export default function TestScreen() {
   useEffect(() => {
     if (showIntro || transitioning || noMistakesRef.current) return;
     setHidden(false);
-    if (memoryModeRef.current && feedback === null) {
-      const timer = setTimeout(() => setHidden(true), memorySecondsRef.current * 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [currentIndex, feedback, showIntro, transitioning]);
+    startHideTimer();
+    return () => { if (hideTimerRef.current) clearTimeout(hideTimerRef.current); };
+  }, [currentIndex, feedback, showIntro, transitioning, startHideTimer]);
 
   if (noMistakes) {
     return (
@@ -287,7 +303,11 @@ export default function TestScreen() {
           <div className="test-body">
               <div className="expression-area">
                 <div className={shaking ? 'shake' : bouncing ? 'drop-bounce' : ''}>
-                  <div className={`expression-text ${hidden || transitioning ? 'expression-text-hidden' : ''}`}>{example.a} {example.op} {example.b}</div>
+                  {hidden && memoryModeRef.current ? (
+                    <div className="expression-memory-icon" onClick={handleReveal}>👁️</div>
+                  ) : (
+                    <div className={`expression-text ${transitioning ? 'expression-text-hidden' : ''}`}>{example.a} {example.op} {example.b}</div>
+                  )}
                 </div>
               </div>
 

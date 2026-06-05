@@ -23,7 +23,7 @@ interface LocaleContextValue {
   locale: Locale;
   strings: Strings;
   t: (key: string, params?: Record<string, string | number>) => string;
-  setLocale: (locale: Locale) => Promise<void>;
+  setLocale: (locale: Locale) => void;
   supportedLocales: typeof SUPPORTED_LOCALES;
 }
 
@@ -61,7 +61,7 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
     setReady(true);
   }, []);
 
-  const setLocale = async (newLocale: Locale) => {
+  const setLocale = (newLocale: Locale) => {
     setLocaleState(newLocale);
     try { localStorage.setItem(STORAGE_KEY, newLocale); } catch {}
   };

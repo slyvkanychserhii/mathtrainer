@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { colors } from '../types';
 import { getPin, setPin, hasPin } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 

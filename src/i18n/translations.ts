@@ -56,6 +56,7 @@ const ru = {
   'expression.equals': '= ?',
   'test.memoryHint': '🧠 Режим памяти — задание появится на экране и через несколько секунд исчезнет. Постарайтесь проговорить его вслух, чтобы запомнить.',
   'test.memoryStart': 'Начать',
+  'test.title': 'Тренировка',
   'feedback.correct': '✓',
   'feedback.wrong': '✗',
   'feedback.correctAnswer': 'Правильно: {answer}',
@@ -94,6 +95,8 @@ const ru = {
   'parent.disableAll': 'Выключить всё',
   'parent.memoryMode': 'Режим памяти (задание исчезает)',
   'parent.memorySeconds': 'Секунд показа',
+  'parent.transitionPause': 'Пауза между заданиями',
+  'mistakes.empty': 'Ошибок нет!',
 
   'stats.empty.title': 'Пока нет результатов',
   'stats.empty.subtitle': 'Пройдите тест, чтобы увидеть статистику',
@@ -111,6 +114,7 @@ const ru = {
   'group.three_two': 'СЛОЖЕНИЕ И ВЫЧИТАНИЕ: ТРЁХЗНАЧНЫЕ + ДВУЗНАЧНЫЕ (3–4 КЛАСС)',
   'group.three_three': 'СЛОЖЕНИЕ И ВЫЧИТАНИЕ: ТРЁХЗНАЧНЫЕ + ТРЁХЗНАЧНЫЕ (4 КЛАСС)',
   'group.multiply': 'УМНОЖЕНИЕ И ДЕЛЕНИЕ: ТАБЛИЦА УМНОЖЕНИЯ (2–3 КЛАСС)',
+  'group.review': 'РАБОТА НАД ОШИБКАМИ',
 
   'task.1': 'Сложение простое',
   'task.2': 'Сложение с переходом через 10',
@@ -167,6 +171,7 @@ const ru = {
   'task.53': 'Деление на 8',
   'task.54': 'Деление на 9',
   'task.55': 'Деление смешанное',
+  'task.56': 'Работа над ошибками',
 };
 
 const en: typeof ru = {
@@ -214,6 +219,7 @@ const en: typeof ru = {
   'expression.equals': '= ?',
   'test.memoryHint': '🧠 Memory mode — the task will appear on screen and disappear after a few seconds. Try saying it out loud to remember it.',
   'test.memoryStart': 'Start',
+  'test.title': 'Training',
   'feedback.correct': '✓',
   'feedback.wrong': '✗',
   'feedback.correctAnswer': 'Correct: {answer}',
@@ -252,6 +258,8 @@ const en: typeof ru = {
   'parent.disableAll': 'Disable all',
   'parent.memoryMode': 'Memory mode (task disappears)',
   'parent.memorySeconds': 'Seconds to show',
+  'parent.transitionPause': 'Pause between tasks',
+  'mistakes.empty': 'No mistakes to review',
 
   'stats.empty.title': 'No results yet',
   'stats.empty.subtitle': 'Take a test to see statistics',
@@ -269,6 +277,7 @@ const en: typeof ru = {
   'group.three_two': 'ADDITION & SUBTRACTION: THREE-DIGIT + TWO-DIGIT (GRADES 3–4)',
   'group.three_three': 'ADDITION & SUBTRACTION: THREE-DIGIT + THREE-DIGIT (GRADE 4)',
   'group.multiply': 'MULTIPLICATION & DIVISION: TIMES TABLES (GRADES 2–3)',
+  'group.review': 'MISTAKES REVIEW',
 
   'task.1': 'Simple addition',
   'task.2': 'Addition bridging through 10',
@@ -325,6 +334,7 @@ const en: typeof ru = {
   'task.53': 'Divide by 8',
   'task.54': 'Divide by 9',
   'task.55': 'Mixed division',
+  'task.56': 'Work on Mistakes',
 };
 
 const es: typeof ru = {
@@ -368,6 +378,7 @@ const es: typeof ru = {
   'feedback.correctAnswer': 'Correcto: {answer}',
   'test.memoryHint': '🧠 Modo memoria — la tarea aparecerá en la pantalla y desaparecerá en unos segundos. Intenta decirla en voz alta para recordarla.',
   'test.memoryStart': 'Comenzar',
+  'test.title': 'Entrenamiento',
   'result.excellent': '¡Excelente!',
   'result.good': '¡Bien!',
   'result.practice': '¡Necesitas practicar!',
@@ -400,6 +411,7 @@ const es: typeof ru = {
   'parent.disableAll': 'Desactivar todo',
   'parent.memoryMode': 'Modo memoria (la tarea desaparece)',
   'parent.memorySeconds': 'Segundos de mostrar',
+  'parent.transitionPause': 'Pausa entre tareas',
 
   'stats.empty.title': 'Sin resultados aún',
   'stats.empty.subtitle': 'Haz una prueba para ver estadísticas',
@@ -473,6 +485,10 @@ const es: typeof ru = {
   'task.53': 'Dividir entre 8',
   'task.54': 'Dividir entre 9',
   'task.55': 'División mixta',
+  'task.56': 'Trabajo sobre errores',
+  'group.review': 'TRABAJO SOBRE ERRORES',
+  'mistakes.empty': '¡No hay errores!',
+  'parent.sound': 'Sonido',
 };
 
 const fr: typeof ru = {
@@ -516,6 +532,7 @@ const fr: typeof ru = {
   'feedback.correctAnswer': 'Correct : {answer}',
   'test.memoryHint': '🧠 Mode mémoire — l\'exercice apparaîtra à l\'écran et disparaîtra après quelques secondes. Essayez de le dire à voix haute pour le mémoriser.',
   'test.memoryStart': 'Commencer',
+  'test.title': 'Entraînement',
   'result.excellent': 'Excellent !',
   'result.good': 'Bien !',
   'result.practice': 'Besoin de pratiquer !',
@@ -548,6 +565,7 @@ const fr: typeof ru = {
   'parent.disableAll': 'Désactiver tout',
   'parent.memoryMode': 'Mode mémoire (l\'exercice disparaît)',
   'parent.memorySeconds': 'Secondes d\'affichage',
+  'parent.transitionPause': 'Pause entre les exercices',
 
   'stats.empty.title': 'Aucun résultat',
   'stats.empty.subtitle': 'Faites un test pour voir les statistiques',
@@ -621,6 +639,10 @@ const fr: typeof ru = {
   'task.53': 'Diviser par 8',
   'task.54': 'Diviser par 9',
   'task.55': 'Division mixte',
+  'task.56': 'Travail sur les erreurs',
+  'group.review': 'TRAVAIL SUR LES ERREURS',
+  'mistakes.empty': 'Aucune erreur !',
+  'parent.sound': 'Son',
 };
 
 const de: typeof ru = {
@@ -664,6 +686,7 @@ const de: typeof ru = {
   'feedback.correctAnswer': 'Richtig: {answer}',
   'test.memoryHint': '🧠 Erinnerungsmodus — die Aufgabe wird auf dem Bildschirm erscheinen und nach einigen Sekunden verschwinden. Versuche, sie laut zu sagen, um sie dir zu merken.',
   'test.memoryStart': 'Start',
+  'test.title': 'Training',
   'result.excellent': 'Ausgezeichnet!',
   'result.good': 'Gut!',
   'result.practice': 'Weiter üben!',
@@ -696,6 +719,7 @@ const de: typeof ru = {
   'parent.disableAll': 'Alle deaktivieren',
   'parent.memoryMode': 'Erinnerungsmodus (Aufgabe verschwindet)',
   'parent.memorySeconds': 'Sekunden anzeigen',
+  'parent.transitionPause': 'Pause zwischen Aufgaben',
 
   'stats.empty.title': 'Noch keine Ergebnisse',
   'stats.empty.subtitle': 'Mach einen Test, um Statistiken zu sehen',
@@ -769,6 +793,10 @@ const de: typeof ru = {
   'task.53': 'Teilen durch 8',
   'task.54': 'Teilen durch 9',
   'task.55': 'Gemischte Division',
+  'task.56': 'Fehleranalyse',
+  'group.review': 'FEHLERANALYSE',
+  'mistakes.empty': 'Keine Fehler!',
+  'parent.sound': 'Ton',
 };
 
 const it: typeof ru = {
@@ -812,6 +840,7 @@ const it: typeof ru = {
   'feedback.correctAnswer': 'Corretto: {answer}',
   'test.memoryHint': '🧠 Modalità memoria — l\'esercizio apparirà sullo schermo e scomparirà dopo qualche secondo. Prova a dirlo ad alta voce per ricordarlo.',
   'test.memoryStart': 'Inizia',
+  'test.title': 'Allenamento',
   'result.excellent': 'Eccellente!',
   'result.good': 'Bravo!',
   'result.practice': 'Devi esercitarti!',
@@ -844,6 +873,7 @@ const it: typeof ru = {
   'parent.disableAll': 'Disattiva tutto',
   'parent.memoryMode': 'Modalità memoria (l\'esercizio scompare)',
   'parent.memorySeconds': 'Secondi di visualizzazione',
+  'parent.transitionPause': 'Pausa tra gli esercizi',
 
   'stats.empty.title': 'Nessun risultato',
   'stats.empty.subtitle': 'Fai un test per vedere le statistiche',
@@ -917,6 +947,10 @@ const it: typeof ru = {
   'task.53': 'Dividere per 8',
   'task.54': 'Dividere per 9',
   'task.55': 'Divisione mista',
+  'task.56': 'Lavoro sugli errori',
+  'group.review': 'LAVORO SUGLI ERRORI',
+  'mistakes.empty': 'Nessun errore!',
+  'parent.sound': 'Suono',
 };
 
 const pt: typeof ru = {
@@ -960,6 +994,7 @@ const pt: typeof ru = {
   'feedback.correctAnswer': 'Correto: {answer}',
   'test.memoryHint': '🧠 Modo memória — a tarefa aparecerá na tela e desaparecerá após alguns segundos. Tente dizê-la em voz alta para memorizá-la.',
   'test.memoryStart': 'Começar',
+  'test.title': 'Treino',
   'result.excellent': 'Excelente!',
   'result.good': 'Bom!',
   'result.practice': 'Precisa praticar!',
@@ -992,6 +1027,7 @@ const pt: typeof ru = {
   'parent.disableAll': 'Desativar tudo',
   'parent.memoryMode': 'Modo memória (a tarefa desaparece)',
   'parent.memorySeconds': 'Segundos de exibição',
+  'parent.transitionPause': 'Pausa entre tarefas',
 
   'stats.empty.title': 'Nenhum resultado ainda',
   'stats.empty.subtitle': 'Faça um teste para ver estatísticas',
@@ -1065,6 +1101,10 @@ const pt: typeof ru = {
   'task.53': 'Dividir por 8',
   'task.54': 'Dividir por 9',
   'task.55': 'Divisão mista',
+  'task.56': 'Trabalho sobre erros',
+  'group.review': 'TRABALHO SOBRE ERROS',
+  'mistakes.empty': 'Sem erros!',
+  'parent.sound': 'Som',
 };
 
 const uk: typeof ru = {
@@ -1104,6 +1144,7 @@ const uk: typeof ru = {
   'feedback.correctAnswer': 'Правильно: {answer}',
   'test.memoryHint': '🧠 Режим пам\'яті — завдання з\'явиться на екрані та через кілька секунд зникне. Спробуйте проговорити його вголос, щоб запам\'ятати.',
   'test.memoryStart': 'Почати',
+  'test.title': 'Тренування',
   'result.excellent': 'Чудово!',
   'result.good': 'Добре!',
   'result.practice': 'Потрібно тренуватися!',
@@ -1138,6 +1179,7 @@ const uk: typeof ru = {
   'parent.disableAll': 'Вимкнути всі',
   'parent.memoryMode': 'Режим пам\'яті (завдання зникає)',
   'parent.memorySeconds': 'Секунд показу',
+  'parent.transitionPause': 'Пауза між завданнями',
 
   'stats.empty.title': 'Поки немає результатів',
   'stats.empty.subtitle': 'Пройдіть тест, щоб побачити статистику',
@@ -1211,6 +1253,9 @@ const uk: typeof ru = {
   'task.53': 'Ділення на 8',
   'task.54': 'Ділення на 9',
   'task.55': 'Ділення змішане',
+  'task.56': 'Робота над помилками',
+  'group.review': 'РОБОТА НАД ПОМИЛКАМИ',
+  'mistakes.empty': 'Помилок немає!',
 };
 
 export const translations = {

@@ -1,4 +1,4 @@
-export interface TaskDef {
+interface TaskDef {
   id: number;
   name: string;
   example: string;
@@ -26,6 +26,7 @@ export const TASK_GROUPS = [
   { id: 'three_two', name: 'СЛОЖЕНИЕ И ВЫЧИТАНИЕ: ТРЁХЗНАЧНЫЕ + ДВУЗНАЧНЫЕ (3–4 КЛАСС)', range: [19, 26] },
   { id: 'three_three', name: 'СЛОЖЕНИЕ И ВЫЧИТАНИЕ: ТРЁХЗНАЧНЫЕ + ТРЁХЗНАЧНЫЕ (4 КЛАСС)', range: [27, 37] },
   { id: 'multiply', name: 'УМНОЖЕНИЕ И ДЕЛЕНИЕ: ТАБЛИЦА УМНОЖЕНИЯ (2–3 КЛАСС)', range: [38, 55] },
+  { id: 'review', name: 'РАБОТА НАД ОШИБКАМИ', range: [56, 56] },
 ];
 
 export const TASKS: TaskDef[] = [
@@ -483,7 +484,7 @@ export const TASKS: TaskDef[] = [
     }
   },
   {
-    id: 46, name: 'Умножение смешанное', example: '7 × 8', group: 'multiply',
+    id: 46, name: 'Умножение смешанное', example: '? × ?', group: 'multiply',
     generate: () => {
       const a = randInt(1, 9);
       const b = randInt(1, 9);
@@ -563,7 +564,7 @@ export const TASKS: TaskDef[] = [
     })
   },
   {
-    id: 55, name: 'Деление смешанное', example: '56 ÷ 8', group: 'multiply',
+    id: 55, name: 'Деление смешанное', example: '? ÷ ?', group: 'multiply',
     generate: () => genWithRetry(() => {
       const divisor = randInt(2, 9);
       const quotient = randInt(2, 9);
@@ -572,12 +573,14 @@ export const TASKS: TaskDef[] = [
       return null;
     })
   },
+  {
+    id: 56, name: 'Работа над ошибками', example: '?', group: 'review',
+    generate: () => ({ a: 1, op: '+', b: 1, answer: 2 }),
+  },
 ];
 
 export function getTaskById(id: number): TaskDef | undefined {
   return TASKS.find(t => t.id === id);
 }
 
-export function getTasksByGroup(groupId: string): TaskDef[] {
-  return TASKS.filter(t => t.group === groupId);
-}
+

@@ -40,6 +40,8 @@ const KEYS = {
   SOUND_ENABLED: 'matemagic_sound_enabled',
   MEMORY_MODE: 'matemagic_memory_mode',
   MEMORY_SECONDS: 'matemagic_memory_seconds',
+  TRANSITION_PAUSE: 'matemagic_transition_pause',
+  WRONG_EXAMPLES: 'matemagic_wrong_examples',
 };
 
 function getItem(key: string): string | null {
@@ -97,20 +99,31 @@ export function setMemoryMode(mode: boolean): void {
 
 export function getMemorySeconds(): number {
   const raw = getItem(KEYS.MEMORY_SECONDS);
-  if (!raw) return 1.5;
+  if (!raw) return 1;
   const n = parseFloat(raw);
-  return isNaN(n) ? 1.5 : Math.max(0.5, Math.min(10, n));
+  return isNaN(n) ? 1 : Math.max(0.5, Math.min(10, n));
 }
 
 export function setMemorySeconds(seconds: number): void {
   setItem(KEYS.MEMORY_SECONDS, String(seconds));
 }
 
+export function getTransitionPause(): number {
+  const raw = getItem(KEYS.TRANSITION_PAUSE);
+  if (!raw) return 1;
+  const n = parseFloat(raw);
+  return isNaN(n) ? 1 : Math.max(0.5, Math.min(5, n));
+}
+
+export function setTransitionPause(seconds: number): void {
+  setItem(KEYS.TRANSITION_PAUSE, String(seconds));
+}
+
 export function getTaskConfigs(): TaskConfig[] {
   const raw = getItem(KEYS.TASK_CONFIGS);
   if (!raw) {
     const defaults: TaskConfig[] = [];
-    for (let i = 1; i <= 55; i++) {
+    for (let i = 1; i <= 56; i++) {
       defaults.push({ taskId: i, enabled: true });
     }
     saveTaskConfigs(defaults);
@@ -118,7 +131,7 @@ export function getTaskConfigs(): TaskConfig[] {
   }
   const configs: TaskConfig[] = JSON.parse(raw);
   const existingIds = new Set(configs.map(c => c.taskId));
-  for (let i = 1; i <= 55; i++) {
+  for (let i = 1; i <= 56; i++) {
     if (!existingIds.has(i)) {
       configs.push({ taskId: i, enabled: true });
     }
@@ -129,13 +142,8 @@ export function getTaskConfigs(): TaskConfig[] {
   return configs;
 }
 
-export function saveTaskConfigs(configs: TaskConfig[]): void {
+function saveTaskConfigs(configs: TaskConfig[]): void {
   setItem(KEYS.TASK_CONFIGS, JSON.stringify(configs));
-}
-
-export function getTaskConfig(taskId: number): TaskConfig {
-  const configs = getTaskConfigs();
-  return configs.find(c => c.taskId === taskId) || { taskId, enabled: false };
 }
 
 export function updateTaskConfig(taskId: number, updates: Partial<TaskConfig>): void {
@@ -188,6 +196,36 @@ export function getBestResult(taskId: number): { percent: number; time: number }
 
 export function clearSessions(): void {
   removeItem(KEYS.SESSIONS);
+}
+
+export function getWrongExamples(): ExampleResult[] {
+  const raw = getItem(KEYS.WRONG_EXAMPLES);
+  if (!raw) return [];
+  try { return JSON.parse(raw); } catch { return []; }
+}
+
+export function addWrongExample(example: ExampleResult): void {
+  const examples = getWrongExamples();
+  const key = `${example.a}|${example.op}|${example.b}`;
+  const idx = examples.findIndex(e => `${e.a}|${e.op}|${e.b}` === key);
+  if (idx >= 0) {
+    const existing = examples.splice(idx, 1)[0];
+    examples.unshift(existing);
+  } else {
+    examples.unshift(example);
+    if (examples.length > 500) examples.length = 500;
+  }
+  setItem(KEYS.WRONG_EXAMPLES, JSON.stringify(examples));
+}
+
+export function removeWrongExample(example: { a: number; op: string; b: number }): void {
+  const examples = getWrongExamples();
+  const key = `${example.a}|${example.op}|${example.b}`;
+  const idx = examples.findIndex(e => `${e.a}|${e.op}|${e.b}` === key);
+  if (idx >= 0) {
+    examples.splice(idx, 1);
+    setItem(KEYS.WRONG_EXAMPLES, JSON.stringify(examples));
+  }
 }
 
 export function getDailyStats(): DailyStat[] {

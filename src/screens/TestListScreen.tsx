@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { colors } from '../types';
 import { TASK_GROUPS, TASKS } from '../data/tasks';
 import { useLocale } from '../i18n/LocaleContext';
 import { getTaskConfigs, getBestResult, getExamplesCount, getDailyStats, type TaskConfig, type DailyStat } from '../data/store';
 
-const graphColors = ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'];
 const COL_W = 12;
 
 export default function TestListScreen() {
@@ -108,9 +106,6 @@ export default function TestListScreen() {
     );
   }
 
-  const cardContentW = containerW - 56;
-  const totalGraphW = 16 + weeks.length * 12;
-  const centeringPad = Math.max(0, Math.floor((cardContentW - totalGraphW) / 2));
 
   const enabledTasks = TASKS.filter(t => {
     const cfg = configs.find(c => c.taskId === t.id);
@@ -131,37 +126,37 @@ export default function TestListScreen() {
         <div className="scroll-content">
           {dailyStats && (
             <div className="graph-card">
-              {(() => {
-                const monthNames = Array.from({ length: 12 }, (_, i) => t(`month.short.${i}`));
-                const labels: { name: string; left: number; key: string }[] = [];
-                let prevM = -1;
-                for (let wi = 0; wi < weeks.length; wi++) {
-                  for (const day of weeks[wi]) {
-                    if (day.empty) continue;
-                    const d = new Date(day.date + 'T00:00:00');
-                    if (d.getDate() === 1) {
-                      const m = d.getMonth();
-                      if (m !== prevM) {
-                        labels.push({ name: monthNames[m], left: 12 + centeringPad + 16 + wi * 12, key: `${d.getFullYear()}-${m}` });
-                        prevM = m;
-                      }
-                      break;
-                    }
-                  }
-                }
-                return labels.map(l => (
-                  <span key={l.key} className="graph-month-label" style={{ left: l.left }}>{l.name}</span>
-                ));
-              })()}
-              <div className="graph-row" style={{ paddingLeft: centeringPad }}>
+              <div className="graph-row">
                 <div className="graph-labels" />
-                <div className="graph-months">
+                <div className="graph-months" style={{ position: 'relative' }}>
+                  {(() => {
+                    const monthNames = Array.from({ length: 12 }, (_, i) => t(`month.short.${i}`));
+                    const labels: { name: string; left: number; key: string }[] = [];
+                    let prevM = -1;
+                    for (let wi = 0; wi < weeks.length; wi++) {
+                      for (const day of weeks[wi]) {
+                        if (day.empty) continue;
+                        const d = new Date(day.date + 'T00:00:00');
+                        if (d.getDate() === 1) {
+                          const m = d.getMonth();
+                          if (m !== prevM) {
+                            labels.push({ name: monthNames[m], left: wi * 12, key: `${d.getFullYear()}-${m}` });
+                            prevM = m;
+                          }
+                          break;
+                        }
+                      }
+                    }
+                    return labels.map(l => (
+                      <span key={l.key} className="graph-month-label" style={{ left: l.left }}>{l.name}</span>
+                    ));
+                  })()}
                   {weeks.map((week, wi) => (
                     <div key={wi} style={{ width: 12 }} />
                   ))}
                 </div>
               </div>
-              <div className="graph-row" style={{ paddingLeft: centeringPad }}>
+              <div className="graph-row">
                 <div className="graph-labels">
                   {[1, 2, 3, 4, 5, 6, 7].map(i => (
                     <span key={i} className="graph-label">{t(`weekday.short.${i}`)}</span>
@@ -246,7 +241,7 @@ export default function TestListScreen() {
                             <span className="task-new">{t('task.new')}</span>
                           )}
                         </div>
-                        <button className="play-btn" onClick={(e) => { e.stopPropagation(); navigate(`/test/${task.id}`); }}>▶</button>
+                        <div className="play-btn" onClick={(e) => { e.stopPropagation(); navigate(`/test/${task.id}`); }}>▶</div>
                       </button>
                     );
                   })}

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { colors } from '../types';
 import { TASK_GROUPS, TASKS } from '../data/tasks';
-import { getTaskConfigs, updateTaskConfig, getExamplesCount, setExamplesCount, getSoundEnabled, setSoundEnabled as storeSetSoundEnabled, getMemoryMode, setMemoryMode, getMemorySeconds, setMemorySeconds, clearSessions, type TaskConfig } from '../data/store';
+import { getTaskConfigs, updateTaskConfig, getExamplesCount, setExamplesCount, getSoundEnabled, setSoundEnabled as storeSetSoundEnabled, getMemoryMode, setMemoryMode, getMemorySeconds, setMemorySeconds, getTransitionPause, setTransitionPause, clearSessions, type TaskConfig } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 
 export default function ParentPanel() {
@@ -12,7 +11,8 @@ export default function ParentPanel() {
   const [count, setCount] = useState(10);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [memoryMode, setMemoryModeState] = useState(false);
-  const [memorySeconds, setMemorySecondsState] = useState(1.5);
+  const [memorySeconds, setMemorySecondsState] = useState(1);
+  const [transitionPause, setTransitionPauseState] = useState(1);
   const [langModalVisible, setLangModalVisible] = useState(false);
 
   useEffect(() => {
@@ -21,11 +21,13 @@ export default function ParentPanel() {
     const s = getSoundEnabled();
     const mm = getMemoryMode();
     const ms = getMemorySeconds();
+    const tp = getTransitionPause();
     setConfigs(c);
     setCount(n);
     setSoundEnabled(s);
     setMemoryModeState(mm);
     setMemorySecondsState(ms);
+    setTransitionPauseState(tp);
   }, []);
 
   const toggleTask = (taskId: number) => {
@@ -35,12 +37,12 @@ export default function ParentPanel() {
   };
 
   const enableAll = () => {
-    for (let i = 1; i <= 55; i++) updateTaskConfig(i, { enabled: true });
+    for (let i = 1; i <= 56; i++) updateTaskConfig(i, { enabled: true });
     setConfigs(getTaskConfigs());
   };
 
   const disableAll = () => {
-    for (let i = 1; i <= 55; i++) updateTaskConfig(i, { enabled: false });
+    for (let i = 1; i <= 56; i++) updateTaskConfig(i, { enabled: false });
     setConfigs(getTaskConfigs());
   };
 
@@ -66,6 +68,12 @@ export default function ParentPanel() {
     const newVal = Math.min(10, Math.max(0.5, +(memorySeconds + delta).toFixed(1)));
     setMemorySecondsState(newVal);
     setMemorySeconds(newVal);
+  };
+
+  const changeTransitionPause = (delta: number) => {
+    const newVal = Math.min(5, Math.max(0.5, +(transitionPause + delta).toFixed(1)));
+    setTransitionPauseState(newVal);
+    setTransitionPause(newVal);
   };
 
   const handleResetStats = () => {
@@ -117,6 +125,15 @@ export default function ParentPanel() {
               <button className="stepper-btn" onClick={() => changeCount(-5)}>−</button>
               <span className="stepper-value">{count}</span>
               <button className="stepper-btn" onClick={() => changeCount(5)}>+</button>
+            </div>
+          </div>
+
+          <div className="setting-card" style={{ cursor: 'default' }}>
+            <span className="setting-label">{t('parent.transitionPause')}</span>
+            <div className="stepper">
+              <button className="stepper-btn" onClick={() => changeTransitionPause(-0.5)}>−</button>
+              <span className="stepper-value">{transitionPause % 1 === 0 ? transitionPause : transitionPause.toFixed(1)}</span>
+              <button className="stepper-btn" onClick={() => changeTransitionPause(0.5)}>+</button>
             </div>
           </div>
 

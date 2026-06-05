@@ -1,4 +1,4 @@
-export const colors = {
+const colors = {
   indigo: '#6366f1',
   indigoDark: '#4f46e5',
   indigoLight: '#a5b4fc',

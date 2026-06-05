@@ -1,4 +1,3 @@
-import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { LocaleProvider } from './i18n/LocaleContext';
 import TestListScreen from './screens/TestListScreen';

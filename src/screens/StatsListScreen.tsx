@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { colors } from '../types';
 import { getSessions, type TestSession } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 

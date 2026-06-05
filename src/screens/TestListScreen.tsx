@@ -189,11 +189,8 @@ export default function TestListScreen() {
                     d.setDate(d.getDate() - 1);
                   } else break;
                 }
-                if (streak > 0) {
-                  const streakDaysKey = streak === 1 ? 'streak.day' : (streak >= 2 && streak <= 4 ? 'streak.days2' : 'streak.days');
-                  return <div className="streak-text">{t('streak.label', { count: streak, days: t(streakDaysKey) })}</div>;
-                }
-                return null;
+                const streakDaysKey = streak === 1 ? 'streak.day' : (streak >= 2 && streak <= 4 ? 'streak.days2' : 'streak.days');
+                return <div className="streak-text">{t('streak.label', { count: streak, days: t(streakDaysKey) })}</div>;
               })()}
             </div>
           )}

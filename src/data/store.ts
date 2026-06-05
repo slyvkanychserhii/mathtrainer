@@ -221,6 +221,7 @@ export function getBestResult(taskId: number): { percent: number; time: number }
 
 export function clearSessions(): void {
   removeItem(KEYS.SESSIONS);
+  removeItem(KEYS.WRONG_EXAMPLES);
 }
 
 export function getWrongExamples(): ExampleResult[] {

@@ -60,9 +60,9 @@ export default function TestScreen() {
   const transitionPauseRef = useRef(1);
   const noMistakesRef = useRef(false);
   const handleBack = useCallback(() => {
-    if (resultsRef.current.length > 0 && !window.confirm('Прервать тест? Весь прогресс будет потерян.')) return;
+    if (resultsRef.current.length > 0 && !window.confirm(t('test.confirmExit'))) return;
     navigate(-1);
-  }, [navigate]);
+  }, [navigate, t]);
 
   const example = examples[currentIndex];
 

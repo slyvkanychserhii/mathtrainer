@@ -32,6 +32,15 @@ export interface DailyStat {
   totalCount: number;
 }
 
+function hashPin(pin: string): string {
+  let h = 0;
+  for (let i = 0; i < pin.length; i++) {
+    h = ((h << 5) - h) + pin.charCodeAt(i);
+    h = h & h;
+  }
+  return 'h' + Math.abs(h).toString(36);
+}
+
 const KEYS = {
   PIN: 'matemagic_pin',
   TASK_CONFIGS: 'matemagic_task_configs',
@@ -61,11 +70,15 @@ export function getPin(): string | null {
 }
 
 export function setPin(pin: string): void {
-  setItem(KEYS.PIN, pin);
+  setItem(KEYS.PIN, hashPin(pin));
 }
 
 export function hasPin(): boolean {
   return getPin() !== null;
+}
+
+export function checkPin(pin: string): boolean {
+  return getPin() === hashPin(pin);
 }
 
 export function getExamplesCount(): number {
@@ -119,27 +132,39 @@ export function setTransitionPause(seconds: number): void {
   setItem(KEYS.TRANSITION_PAUSE, String(seconds));
 }
 
-export function getTaskConfigs(): TaskConfig[] {
+function ensureConfigs(): void {
   const raw = getItem(KEYS.TASK_CONFIGS);
   if (!raw) {
     const defaults: TaskConfig[] = [];
     for (let i = 1; i <= 56; i++) {
       defaults.push({ taskId: i, enabled: true });
     }
-    saveTaskConfigs(defaults);
-    return defaults;
+    setItem(KEYS.TASK_CONFIGS, JSON.stringify(defaults));
+    return;
   }
-  const configs: TaskConfig[] = JSON.parse(raw);
+  let configs: TaskConfig[];
+  try { configs = JSON.parse(raw); } catch { configs = []; }
   const existingIds = new Set(configs.map(c => c.taskId));
+  let changed = false;
   for (let i = 1; i <= 56; i++) {
     if (!existingIds.has(i)) {
       configs.push({ taskId: i, enabled: true });
+      changed = true;
     }
   }
-  if (configs.length > existingIds.size) {
-    saveTaskConfigs(configs);
+  if (changed) {
+    setItem(KEYS.TASK_CONFIGS, JSON.stringify(configs));
   }
-  return configs;
+}
+
+export function getTaskConfigs(): TaskConfig[] {
+  const raw = getItem(KEYS.TASK_CONFIGS);
+  if (!raw) return [];
+  try { return JSON.parse(raw); } catch { return []; }
+}
+
+export function initTaskConfigs(): void {
+  ensureConfigs();
 }
 
 function saveTaskConfigs(configs: TaskConfig[]): void {
@@ -160,7 +185,7 @@ export function updateTaskConfig(taskId: number, updates: Partial<TaskConfig>): 
 export function getSessions(): TestSession[] {
   const raw = getItem(KEYS.SESSIONS);
   if (!raw) return [];
-  return JSON.parse(raw);
+  try { return JSON.parse(raw); } catch { return []; }
 }
 
 export function saveSession(session: TestSession): void {

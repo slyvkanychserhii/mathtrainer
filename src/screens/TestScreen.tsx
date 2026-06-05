@@ -28,9 +28,9 @@ export default function TestScreen() {
   function genUnique(prev: ExampleDef | null): ExampleDef {
     for (let attempt = 0; attempt < 50; attempt++) {
       const ex = task.generate();
-      if (!prev || ex.a !== prev.a || ex.op !== prev.op || ex.b !== prev.b) return ex;
+      if (ex && (!prev || ex.a !== prev.a || ex.op !== prev.op || ex.b !== prev.b)) return ex;
     }
-    return task.generate();
+    return task.generate() || { a: 1, op: '+', b: 1, answer: 2 };
   }
 
   const isReview = taskId === '56';
@@ -60,6 +60,7 @@ export default function TestScreen() {
   const transitionPauseRef = useRef(1);
   const noMistakesRef = useRef(false);
   const handleBack = useCallback(() => {
+    if (resultsRef.current.length > 0 && !window.confirm('Прервать тест? Весь прогресс будет потерян.')) return;
     navigate(-1);
   }, [navigate]);
 

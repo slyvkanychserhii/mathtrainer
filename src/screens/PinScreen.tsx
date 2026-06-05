@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getPin, setPin, hasPin } from '../data/store';
+import { setPin, hasPin, checkPin } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 
 export default function PinScreen() {
@@ -44,8 +44,7 @@ export default function PinScreen() {
               triggerShake();
             }
           } else if (mode === 'enter') {
-            const stored = getPin();
-            if (newPin === stored) {
+            if (checkPin(newPin)) {
               navigate('/parent-panel', { replace: true });
             } else {
               setError(t('pin.error.wrong'));

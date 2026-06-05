@@ -1,9 +1,11 @@
+export type GroupId = 'single' | 'two_one' | 'two_two' | 'three_one' | 'three_two' | 'three_three' | 'multiply' | 'review';
+
 interface TaskDef {
   id: number;
   name: string;
   example: string;
-  group: string;
-  generate: () => { a: number; op: string; b: number; answer: number };
+  group: GroupId;
+  generate: () => { a: number; op: string; b: number; answer: number } | null;
 }
 
 function randInt(min: number, max: number): number {
@@ -18,7 +20,7 @@ function genWithRetry(fn: () => { a: number; op: string; b: number; answer: numb
   return { a: 1, op: '+', b: 1, answer: 2 };
 }
 
-export const TASK_GROUPS = [
+export const TASK_GROUPS: { id: GroupId; name: string; range: [number, number] }[] = [
   { id: 'single', name: 'СЛОЖЕНИЕ И ВЫЧИТАНИЕ: ОДНОЗНАЧНЫЕ (1–2 КЛАСС)', range: [1, 4] },
   { id: 'two_one', name: 'СЛОЖЕНИЕ И ВЫЧИТАНИЕ: ДВУЗНАЧНЫЕ + ОДНОЗНАЧНЫЕ (2 КЛАСС)', range: [5, 8] },
   { id: 'two_two', name: 'СЛОЖЕНИЕ И ВЫЧИТАНИЕ: ДВУЗНАЧНЫЕ + ДВУЗНАЧНЫЕ (2–3 КЛАСС)', range: [9, 14] },
@@ -575,7 +577,7 @@ export const TASKS: TaskDef[] = [
   },
   {
     id: 56, name: 'Работа над ошибками', example: '?', group: 'review',
-    generate: () => ({ a: 1, op: '+', b: 1, answer: 2 }),
+    generate: () => null,
   },
 ];
 

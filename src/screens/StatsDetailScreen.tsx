@@ -13,10 +13,10 @@ function formatDate(iso: string): string {
   return `${dd}.${mm}.${yyyy} ${hh}:${min}`;
 }
 
-function formatTime(ms: number): string {
+function formatTime(ms: number, t: (key: string, params?: Record<string, string | number>) => string): string {
   const sec = Math.round(ms / 1000);
-  if (sec >= 60) return `${Math.floor(sec / 60)}м ${sec % 60}с`;
-  return `${sec}с`;
+  if (sec >= 60) return t('time.format', { m: Math.floor(sec / 60), s: sec % 60 });
+  return t('time.seconds', { s: sec });
 }
 
 export default function StatsDetailScreen() {
@@ -68,11 +68,11 @@ export default function StatsDetailScreen() {
           <div className="detail-stat-label">{t('result.label')}</div>
         </div>
         <div className="detail-stat-card">
-          <div className="detail-stat-value">{formatTime(session.totalTimeMs)}</div>
+          <div className="detail-stat-value">{formatTime(session.totalTimeMs, t)}</div>
           <div className="detail-stat-label">{t('stats.totalTime')}</div>
         </div>
         <div className="detail-stat-card">
-          <div className="detail-stat-value">{formatTime(avgTime)}</div>
+          <div className="detail-stat-value">{formatTime(avgTime, t)}</div>
           <div className="detail-stat-label">{t('stats.averagePerExample')}</div>
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function StatsDetailScreen() {
                   )}
                 </div>
                 <div className="example-time">
-                  {isSlowest ? '🐌 ' : ''}{formatTime(example.timeMs)}
+                  {isSlowest ? '🐌 ' : ''}{formatTime(example.timeMs, t)}
                 </div>
               </div>
             );

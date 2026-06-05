@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getSessionById, type TestSession } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
-import { TASKS } from '../data/tasks';
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -52,15 +51,11 @@ export default function StatsDetailScreen() {
     <div className="app-container">
       <div className="page-header">
         <button className="back-btn" onClick={() => navigate(-1)}>{t('back')}</button>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <span className="page-header-title">{t(`task.${session.taskId}`)}</span>
-          <div className="task-toggle-example" style={{ marginTop: 2 }}>
-            {TASKS.find(t => t.id === session.taskId)?.example}
-          </div>
-        </div>
+        <span className="page-header-title">{t('header.stats')}</span>
       </div>
 
       <div className="summary">
+        <div className="summary-task-name">{t(`task.${session.taskId}`)}</div>
         <div className="summary-pct" style={{ color: pct >= 80 ? '#22c55e' : pct >= 50 ? '#f59e0b' : '#ef4444' }}>
           {pct}%
         </div>

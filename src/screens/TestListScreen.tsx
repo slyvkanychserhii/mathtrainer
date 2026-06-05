@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TASK_GROUPS, TASKS } from '../data/tasks';
 import { useLocale } from '../i18n/LocaleContext';
-import { getTaskConfigs, getBestResult, getExamplesCount, getDailyStats, type TaskConfig, type DailyStat } from '../data/store';
+import { getTaskConfigs, getBestResult, getExamplesCount, getDailyStats, getWrongExamples, type TaskConfig, type DailyStat } from '../data/store';
 
 const COL_W = 12;
 
@@ -12,6 +12,7 @@ export default function TestListScreen() {
   const [configs, setConfigs] = useState<TaskConfig[] | null>(null);
   const [examplesCount, setExamplesCount] = useState(10);
   const [bestResults, setBestResults] = useState<Record<number, { percent: number; time: number } | null>>({});
+  const [wrongCount, setWrongCount] = useState(0);
   const [dailyStats, setDailyStats] = useState<DailyStat[] | null>(null);
   const [containerW, setContainerW] = useState(Math.min(window.innerWidth, 500));
 
@@ -27,6 +28,7 @@ export default function TestListScreen() {
       results[task.id] = getBestResult(task.id);
     }
     setBestResults(results);
+    setWrongCount(getWrongExamples().length);
   }, []);
 
   useEffect(() => {
@@ -227,7 +229,11 @@ export default function TestListScreen() {
                         </div>
                         <div className="task-meta">
                           <span className="task-count">{t('examples.abbreviation', { count: examplesCount })}</span>
-                          {best ? (
+                          {task.id === 56 ? (
+                            <span className="task-best">
+                              ❌ {wrongCount}
+                            </span>
+                          ) : best ? (
                             <span className="task-best">
                               🏆 {Math.round(best.percent)}%{' '}
                               {best.time < 60000

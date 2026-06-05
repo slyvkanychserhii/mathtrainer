@@ -59,32 +59,9 @@ export default function TestScreen() {
   const memorySecondsRef = useRef(1);
   const transitionPauseRef = useRef(1);
   const noMistakesRef = useRef(false);
-  const sessionSavedRef = useRef(false);
-
-  const savePartialSession = useCallback(() => {
-    if (sessionSavedRef.current) return;
-    const r = resultsRef.current;
-    if (r.length === 0) return;
-    const correctCount = r.filter(x => x.isCorrect).length;
-    const totalTime = r.reduce((s, x) => s + x.timeMs, 0);
-    const session = {
-      id: generateId(),
-      taskId: Number(taskId),
-      taskName: task.name,
-      date: new Date().toISOString(),
-      examples: r,
-      correctCount,
-      totalCount: r.length,
-      totalTimeMs: totalTime,
-    };
-    saveSession(session);
-    sessionSavedRef.current = true;
-  }, [taskId, task.name]);
-
   const handleBack = useCallback(() => {
-    savePartialSession();
     navigate(-1);
-  }, [savePartialSession, navigate]);
+  }, [navigate]);
 
   const example = examples[currentIndex];
 
@@ -109,7 +86,6 @@ export default function TestScreen() {
         totalTimeMs: totalTime,
       };
       saveSession(session);
-      sessionSavedRef.current = true;
       navigate(`/test-result/${session.id}`, { replace: true });
     } else {
       setFeedback(null);
@@ -248,10 +224,6 @@ export default function TestScreen() {
     const timer = setTimeout(() => setTransitioning(false), transitionPauseRef.current * 1000);
     return () => clearTimeout(timer);
   }, [showIntro]);
-
-  useEffect(() => {
-    return () => savePartialSession();
-  }, [savePartialSession]);
 
   const startTimeRef = useRef(Date.now());
   useEffect(() => {

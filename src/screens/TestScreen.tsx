@@ -221,10 +221,13 @@ export default function TestScreen() {
     const base = import.meta.env.BASE_URL || '/';
     audioCorrectRef.current = new Audio(`${base}sounds/correct.wav`);
     audioWrongRef.current = new Audio(`${base}sounds/wrong.wav`);
+    audioReloadRef.current = new Audio(`${base}sounds/reload.wav`);
     audioCorrectRef.current.volume = 0.6;
     audioWrongRef.current.volume = 0.5;
-    audioReloadRef.current = new Audio(`${base}sounds/reload.wav`);
     audioReloadRef.current.volume = 0.5;
+    audioCorrectRef.current.load();
+    audioWrongRef.current.load();
+    audioReloadRef.current.load();
   }, []);
 
   useEffect(() => {

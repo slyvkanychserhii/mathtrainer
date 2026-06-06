@@ -24,6 +24,8 @@ export default function TestScreen() {
   const audioCorrectRef = useRef<HTMLAudioElement | null>(null);
   const audioWrongRef = useRef<HTMLAudioElement | null>(null);
   const audioReloadRef = useRef<HTMLAudioElement | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const wrongBufferRef = useRef<AudioBuffer | null>(null);
 
   function genUnique(prev: ExampleDef | null): ExampleDef {
     for (let attempt = 0; attempt < 50; attempt++) {
@@ -143,9 +145,16 @@ export default function TestScreen() {
         removeWrongExample({ a: example.a, op: example.op, b: example.b });
       }
     } else {
-      if (soundEnabledRef.current && audioWrongRef.current) {
-        audioWrongRef.current.currentTime = 0;
-        audioWrongRef.current.play();
+      if (soundEnabledRef.current) {
+        const ctx = audioCtxRef.current;
+        const buf = wrongBufferRef.current;
+        if (ctx && buf) {
+          if (ctx.state === 'suspended') ctx.resume();
+          const source = ctx.createBufferSource();
+          source.buffer = buf;
+          source.connect(ctx.destination);
+          source.start(0);
+        }
       }
       setFeedback('wrong');
       triggerShake();
@@ -228,6 +237,13 @@ export default function TestScreen() {
     audioCorrectRef.current.load();
     audioWrongRef.current.load();
     audioReloadRef.current.load();
+
+    audioCtxRef.current = new AudioContext();
+    fetch(`${base}sounds/wrong.wav`)
+      .then(r => r.arrayBuffer())
+      .then(buf => audioCtxRef.current!.decodeAudioData(buf))
+      .then(buf => { wrongBufferRef.current = buf; })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {

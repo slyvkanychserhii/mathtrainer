@@ -544,7 +544,7 @@ html, body, #root {
   display: flex;
   gap: 8px;
   margin-top: 6px;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .task-best {

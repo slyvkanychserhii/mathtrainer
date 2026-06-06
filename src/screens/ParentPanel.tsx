@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TASK_GROUPS, TASKS } from '../data/tasks';
-import { getTaskConfigs, updateTaskConfig, getExamplesCount, setExamplesCount, getSoundEnabled, setSoundEnabled as storeSetSoundEnabled, getMemoryMode, setMemoryMode, getMemorySeconds, setMemorySeconds, getTransitionPause, setTransitionPause, clearSessions, getKeypadSoundEnabled, setKeypadSoundEnabled as storeSetKeypadSoundEnabled, type TaskConfig } from '../data/store';
+import { getTaskConfigs, updateTaskConfig, getExamplesCount, setExamplesCount, getSoundEnabled, setSoundEnabled as storeSetSoundEnabled, getMemoryMode, setMemoryMode, getMemorySeconds, setMemorySeconds, getTransitionPause, setTransitionPause, clearSessions, getKeypadSoundEnabled, setKeypadSoundEnabled as storeSetKeypadSoundEnabled, getKeypadSoundVolume, setKeypadSoundVolume as storeSetKeypadSoundVolume, type TaskConfig } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 
 export default function ParentPanel() {
@@ -14,6 +14,7 @@ export default function ParentPanel() {
   const [memorySeconds, setMemorySecondsState] = useState(1);
   const [transitionPause, setTransitionPauseState] = useState(1);
   const [keypadSoundEnabled, setKeypadSoundEnabled] = useState(true);
+  const [keypadSoundVolume, setKeypadSoundVolume] = useState(0.3);
   const [langModalVisible, setLangModalVisible] = useState(false);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function ParentPanel() {
     const ms = getMemorySeconds();
     const tp = getTransitionPause();
     const kps = getKeypadSoundEnabled();
+    const kpv = getKeypadSoundVolume();
     setConfigs(c);
     setCount(n);
     setSoundEnabled(s);
@@ -31,6 +33,7 @@ export default function ParentPanel() {
     setMemorySecondsState(ms);
     setTransitionPauseState(tp);
     setKeypadSoundEnabled(kps);
+    setKeypadSoundVolume(kpv);
   }, []);
 
   const toggleTask = (taskId: number) => {
@@ -65,6 +68,12 @@ export default function ParentPanel() {
     const next = !keypadSoundEnabled;
     setKeypadSoundEnabled(next);
     storeSetKeypadSoundEnabled(next);
+  };
+
+  const changeKeypadVolume = (delta: number) => {
+    const newVal = Math.min(1, Math.max(0, +(keypadSoundVolume + delta).toFixed(1)));
+    setKeypadSoundVolume(newVal);
+    storeSetKeypadSoundVolume(newVal);
   };
 
   const toggleMemoryMode = () => {
@@ -133,6 +142,15 @@ export default function ParentPanel() {
             <button className={`toggle ${keypadSoundEnabled ? 'toggle-on' : ''}`} onClick={toggleKeypadSound}>
               <div className="toggle-knob" />
             </button>
+          </div>
+
+          <div className="setting-card" style={{ cursor: 'default' }}>
+            <span className="setting-label">{t('parent.keypadSoundVolume')}</span>
+            <div className="stepper">
+              <button className="stepper-btn" onClick={() => changeKeypadVolume(-0.1)}>−</button>
+              <span className="stepper-value">{Math.round(keypadSoundVolume * 100)}%</span>
+              <button className="stepper-btn" onClick={() => changeKeypadVolume(0.1)}>+</button>
+            </div>
           </div>
 
           <div className="setting-card" style={{ cursor: 'default' }}>

@@ -51,6 +51,7 @@ const KEYS = {
   MEMORY_SECONDS: 'mathtrainer_memory_seconds',
   TRANSITION_PAUSE: 'mathtrainer_transition_pause',
   KEYPAD_SOUND_ENABLED: 'mathtrainer_keypad_sound',
+  KEYPAD_SOUND_VOLUME: 'mathtrainer_keypad_volume',
   WRONG_EXAMPLES: 'mathtrainer_wrong_examples',
 };
 
@@ -139,6 +140,17 @@ export function getKeypadSoundEnabled(): boolean {
 
 export function setKeypadSoundEnabled(enabled: boolean): void {
   setItem(KEYS.KEYPAD_SOUND_ENABLED, enabled ? '1' : '0');
+}
+
+export function getKeypadSoundVolume(): number {
+  const raw = getItem(KEYS.KEYPAD_SOUND_VOLUME);
+  if (!raw) return 0.3;
+  const n = parseFloat(raw);
+  return isNaN(n) ? 0.3 : Math.max(0, Math.min(1, n));
+}
+
+export function setKeypadSoundVolume(volume: number): void {
+  setItem(KEYS.KEYPAD_SOUND_VOLUME, String(volume));
 }
 
 function ensureConfigs(): void {

@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getTaskById } from '../data/tasks';
-import { getExamplesCount, getSoundEnabled, getMemoryMode, getMemorySeconds, getTransitionPause, saveSession, generateId, getWrongExamples, addWrongExample, removeWrongExample, getKeypadSoundEnabled, type ExampleResult } from '../data/store';
+import { getExamplesCount, getSoundEnabled, getMemoryMode, getMemorySeconds, getTransitionPause, saveSession, generateId, getWrongExamples, addWrongExample, removeWrongExample, getKeypadSoundEnabled, getKeypadSoundVolume, type ExampleResult } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 
 interface ExampleDef {
@@ -28,6 +28,7 @@ export default function TestScreen() {
   const clickBufferRef = useRef<AudioBuffer | null>(null);
   const audioClickRef = useRef<HTMLAudioElement | null>(null);
   const keypadSoundEnabledRef = useRef(true);
+  const keypadSoundVolumeRef = useRef(0.3);
 
   function genUnique(prev: ExampleDef | null): ExampleDef {
     for (let attempt = 0; attempt < 50; attempt++) {
@@ -172,13 +173,18 @@ export default function TestScreen() {
     if (!keypadSoundEnabledRef.current) return;
     const ctx = audioCtxRef.current;
     const buf = clickBufferRef.current;
+    const vol = keypadSoundVolumeRef.current;
     if (ctx && buf) {
       if (ctx.state === 'suspended') ctx.resume();
+      const gain = ctx.createGain();
+      gain.gain.value = vol;
       const source = ctx.createBufferSource();
       source.buffer = buf;
-      source.connect(ctx.destination);
+      source.connect(gain);
+      gain.connect(ctx.destination);
       source.start(0);
     } else if (audioClickRef.current) {
+      audioClickRef.current.volume = vol;
       audioClickRef.current.currentTime = 0;
       audioClickRef.current.play();
     }
@@ -210,6 +216,7 @@ export default function TestScreen() {
     memorySecondsRef.current = ms;
     transitionPauseRef.current = tp;
     keypadSoundEnabledRef.current = getKeypadSoundEnabled();
+    keypadSoundVolumeRef.current = getKeypadSoundVolume();
 
     if (isReview) {
       const wrong = getWrongExamples();

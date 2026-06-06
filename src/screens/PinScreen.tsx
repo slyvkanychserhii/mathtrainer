@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setPin, hasPin, checkPin, getKeypadSoundEnabled } from '../data/store';
+import { setPin, hasPin, checkPin, getKeypadSoundEnabled, getKeypadSoundVolume } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 
 export default function PinScreen() {
@@ -15,10 +15,12 @@ export default function PinScreen() {
   const clickBufferRef = useRef<AudioBuffer | null>(null);
   const audioClickRef = useRef<HTMLAudioElement | null>(null);
   const keypadSoundEnabledRef = useRef(true);
+  const keypadSoundVolumeRef = useRef(0.3);
 
   useEffect(() => {
     setMode(hasPin() ? 'enter' : 'set');
     keypadSoundEnabledRef.current = getKeypadSoundEnabled();
+    keypadSoundVolumeRef.current = getKeypadSoundVolume();
 
     const base = import.meta.env.BASE_URL || '/';
     audioClickRef.current = new Audio(`${base}sounds/click.wav`);
@@ -43,13 +45,18 @@ export default function PinScreen() {
     if (!keypadSoundEnabledRef.current) return;
     const ctx = audioCtxRef.current;
     const buf = clickBufferRef.current;
+    const vol = keypadSoundVolumeRef.current;
     if (ctx && buf) {
       if (ctx.state === 'suspended') ctx.resume();
+      const gain = ctx.createGain();
+      gain.gain.value = vol;
       const source = ctx.createBufferSource();
       source.buffer = buf;
-      source.connect(ctx.destination);
+      source.connect(gain);
+      gain.connect(ctx.destination);
       source.start(0);
     } else if (audioClickRef.current) {
+      audioClickRef.current.volume = vol;
       audioClickRef.current.currentTime = 0;
       audioClickRef.current.play();
     }

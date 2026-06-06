@@ -266,10 +266,6 @@ export default function TestListScreen() {
                         onClick={() => navigate(`/test/${task.id}`)}
                       >
                         <div className="task-left">
-                          <div className="task-info">
-                            <div className="task-name">{t(`task.${task.id}`)}</div>
-                            <div className="task-example">{task.example}</div>
-                          </div>
                           {task.id === 56 ? (
                             <div className="task-stats">
                               <span className="task-best">❌ {wrongCount}</span>
@@ -295,6 +291,10 @@ export default function TestListScreen() {
                               <span className="task-new">{t('task.new')}</span>
                             </div>
                           )}
+                          <div className="task-info">
+                            <div className="task-name">{t(`task.${task.id}`)}</div>
+                            <div className="task-example">{task.example}</div>
+                          </div>
                         </div>
                       </button>
                     );

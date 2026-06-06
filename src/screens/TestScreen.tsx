@@ -22,7 +22,6 @@ export default function TestScreen() {
   const resultsRef = useRef<ExampleResult[]>([]);
   const soundEnabledRef = useRef(true);
   const audioCorrectRef = useRef<HTMLAudioElement | null>(null);
-  const audioWrongRef = useRef<HTMLAudioElement | null>(null);
   const audioReloadRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const wrongBufferRef = useRef<AudioBuffer | null>(null);
@@ -252,22 +251,25 @@ export default function TestScreen() {
 
     const base = import.meta.env.BASE_URL || '/';
     audioCorrectRef.current = new Audio(`${base}sounds/correct.wav`);
-    audioWrongRef.current = new Audio(`${base}sounds/wrong.wav`);
     audioReloadRef.current = new Audio(`${base}sounds/reload.wav`);
     audioClickRef.current = new Audio(`${base}sounds/click.wav`);
     audioCorrectRef.current.volume = 0.6;
-    audioWrongRef.current.volume = 0.5;
     audioReloadRef.current.volume = 0.5;
     audioClickRef.current.volume = 0.3;
     audioCorrectRef.current.load();
-    audioWrongRef.current.load();
     audioReloadRef.current.load();
 
+    const ac = new AbortController();
     audioCtxRef.current = new AudioContext();
     Promise.all([
-      fetch(`${base}sounds/wrong.wav`).then(r => r.arrayBuffer()).then(buf => audioCtxRef.current!.decodeAudioData(buf)).then(buf => { wrongBufferRef.current = buf; }),
-      fetch(`${base}sounds/click.wav`).then(r => r.arrayBuffer()).then(buf => audioCtxRef.current!.decodeAudioData(buf)).then(buf => { clickBufferRef.current = buf; }),
+      fetch(`${base}sounds/wrong.wav`, { signal: ac.signal }).then(r => r.arrayBuffer()).then(buf => audioCtxRef.current!.decodeAudioData(buf)).then(buf => { wrongBufferRef.current = buf; }),
+      fetch(`${base}sounds/click.wav`, { signal: ac.signal }).then(r => r.arrayBuffer()).then(buf => audioCtxRef.current!.decodeAudioData(buf)).then(buf => { clickBufferRef.current = buf; }),
     ]).catch(() => {});
+
+    return () => {
+      ac.abort();
+      audioCtxRef.current?.close();
+    };
   }, []);
 
   useEffect(() => {

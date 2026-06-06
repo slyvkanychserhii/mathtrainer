@@ -14,25 +14,33 @@ export default function PinScreen() {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const clickBufferRef = useRef<AudioBuffer | null>(null);
   const audioClickRef = useRef<HTMLAudioElement | null>(null);
+  const keypadSoundEnabledRef = useRef(true);
 
   useEffect(() => {
     setMode(hasPin() ? 'enter' : 'set');
+    keypadSoundEnabledRef.current = getKeypadSoundEnabled();
 
     const base = import.meta.env.BASE_URL || '/';
     audioClickRef.current = new Audio(`${base}sounds/click.wav`);
     audioClickRef.current.volume = 0.3;
     audioClickRef.current.load();
 
+    const ac = new AbortController();
     audioCtxRef.current = new AudioContext();
-    fetch(`${base}sounds/click.wav`)
+    fetch(`${base}sounds/click.wav`, { signal: ac.signal })
       .then(r => r.arrayBuffer())
       .then(buf => audioCtxRef.current!.decodeAudioData(buf))
       .then(buf => { clickBufferRef.current = buf; })
       .catch(() => {});
+
+    return () => {
+      ac.abort();
+      audioCtxRef.current?.close();
+    };
   }, []);
 
   const playClick = useCallback(() => {
-    if (!getKeypadSoundEnabled()) return;
+    if (!keypadSoundEnabledRef.current) return;
     const ctx = audioCtxRef.current;
     const buf = clickBufferRef.current;
     if (ctx && buf) {
@@ -45,10 +53,6 @@ export default function PinScreen() {
       audioClickRef.current.currentTime = 0;
       audioClickRef.current.play();
     }
-  }, []);
-
-  useEffect(() => {
-    setMode(hasPin() ? 'enter' : 'set');
   }, []);
 
   const triggerShake = useCallback(() => {

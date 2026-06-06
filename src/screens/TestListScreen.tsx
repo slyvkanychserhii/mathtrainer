@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TASK_GROUPS, TASKS } from '../data/tasks';
 import { useLocale } from '../i18n/LocaleContext';
-import { getTaskConfigs, getBestResult, getExamplesCount, getDailyStats, getWrongExamples, type TaskConfig, type DailyStat } from '../data/store';
+import { getTaskConfigs, getBestResult, getDailyStats, getWrongExamples, getSessions, type TaskConfig, type DailyStat } from '../data/store';
 
 const COL_W = 12;
 
@@ -10,24 +10,27 @@ export default function TestListScreen() {
   const navigate = useNavigate();
   const { t } = useLocale();
   const [configs, setConfigs] = useState<TaskConfig[] | null>(null);
-  const [examplesCount, setExamplesCount] = useState(10);
   const [bestResults, setBestResults] = useState<Record<number, { percent: number; time: number } | null>>({});
+  const [lastSessions, setLastSessions] = useState<Record<number, string | null>>({});
   const [wrongCount, setWrongCount] = useState(0);
   const [dailyStats, setDailyStats] = useState<DailyStat[] | null>(null);
   const [containerW, setContainerW] = useState(Math.min(window.innerWidth, 500));
 
   const load = useCallback(() => {
     const cfg = getTaskConfigs();
-    const count = getExamplesCount();
     const ds = getDailyStats();
     setConfigs(cfg);
-    setExamplesCount(count);
     setDailyStats(ds);
     const results: Record<number, { percent: number; time: number } | null> = {};
+    const sessions: Record<number, string | null> = {};
+    const allSessions = getSessions();
     for (const task of TASKS) {
       results[task.id] = getBestResult(task.id);
+      const taskSessions = allSessions.filter(s => s.taskId === task.id);
+      sessions[task.id] = taskSessions.length > 0 ? taskSessions[0].date.slice(0, 10) : null;
     }
     setBestResults(results);
+    setLastSessions(sessions);
     setWrongCount(getWrongExamples().length);
   }, []);
 
@@ -45,6 +48,17 @@ export default function TestListScreen() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   })();
+  const yesterdayStr = (() => {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  })();
+  const getPlayColor = (lastDate: string | null): string => {
+    if (!lastDate) return '#6366f1';
+    if (lastDate === todayStr) return '#22c55e';
+    if (lastDate === yesterdayStr) return '#f59e0b';
+    return '#ef4444';
+  };
 
   const weeks: { date: string; level: number; empty: boolean }[][] = [];
   if (dailyStats) {
@@ -228,7 +242,6 @@ export default function TestListScreen() {
                           <div className="task-example">{task.example}</div>
                         </div>
                         <div className="task-meta">
-                          <span className="task-count">{t('examples.abbreviation', { count: examplesCount })}</span>
                           {task.id === 56 ? (
                             <span className="task-best">
                               ❌ {wrongCount}
@@ -244,7 +257,7 @@ export default function TestListScreen() {
                             <span className="task-new">{t('task.new')}</span>
                           )}
                         </div>
-                        <div className="play-btn" onClick={(e) => { e.stopPropagation(); navigate(`/test/${task.id}`); }}>▶</div>
+                        <div className="play-btn" onClick={(e) => { e.stopPropagation(); navigate(`/test/${task.id}`); }} style={{ backgroundColor: getPlayColor(lastSessions[task.id] ?? null) }}>▶</div>
                       </button>
                     );
                   })}

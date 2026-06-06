@@ -47,8 +47,6 @@ const ru = {
   'empty.askParent': 'Попросите родителя включить задания в настройках',
   'home.howToChangeTasks': 'Нажмите «Настройки» вверху, чтобы изменить список заданий',
 
-  'examples.abbreviation': '{count} пр.',
-
   'task.new': 'новый',
 
   'numpad.ok': 'OK',
@@ -212,8 +210,6 @@ const en: typeof ru = {
   'empty.noActiveTests': 'No active tests',
   'empty.askParent': 'Ask a parent to enable tasks in settings',
   'home.howToChangeTasks': 'Tap «Settings» at the top to change the task list',
-
-  'examples.abbreviation': '{count} pr.',
 
   'task.new': 'new',
 

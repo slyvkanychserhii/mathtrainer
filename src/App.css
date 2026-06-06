@@ -552,6 +552,14 @@ html, body, #root {
   margin-top: 2px;
 }
 
+.task-last {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.task-recency {
+}
+
 .task-new {
   font-size: 12px;
   color: #9ca3af;

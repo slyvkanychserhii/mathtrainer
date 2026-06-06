@@ -67,6 +67,8 @@ const ru = {
   'percent.label': 'Процент',
   'time.format': '{m}м {s}с',
   'time.seconds': '{s}с',
+  'date.today': 'сегодня',
+  'date.yesterday': 'вчера',
 
   'button.tryAgain': 'Ещё раз',
   'button.stats': 'Статистика',
@@ -230,6 +232,8 @@ const en: typeof ru = {
   'percent.label': 'Percent',
   'time.format': '{m}m {s}s',
   'time.seconds': '{s}s',
+  'date.today': 'today',
+  'date.yesterday': 'yesterday',
 
   'button.tryAgain': 'Try Again',
   'button.stats': 'Stats',

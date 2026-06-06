@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TASK_GROUPS, TASKS } from '../data/tasks';
 import { useLocale } from '../i18n/LocaleContext';
-import { getTaskConfigs, getBestResult, getDailyStats, getWrongExamples, getSessions, type TaskConfig, type DailyStat } from '../data/store';
+import { getTaskConfigs, getDailyStats, getWrongExamples, getSessions, type TaskConfig, type DailyStat } from '../data/store';
 
 const COL_W = 12;
 
@@ -11,7 +11,8 @@ export default function TestListScreen() {
   const { t } = useLocale();
   const [configs, setConfigs] = useState<TaskConfig[] | null>(null);
   const [bestResults, setBestResults] = useState<Record<number, { percent: number; time: number } | null>>({});
-  const [lastSessions, setLastSessions] = useState<Record<number, string | null>>({});
+  const [lastResults, setLastResults] = useState<Record<number, { percent: number; time: number } | null>>({});
+  const [lastDates, setLastDates] = useState<Record<number, string | null>>({});
   const [wrongCount, setWrongCount] = useState(0);
   const [dailyStats, setDailyStats] = useState<DailyStat[] | null>(null);
   const [containerW, setContainerW] = useState(Math.min(window.innerWidth, 500));
@@ -21,16 +22,34 @@ export default function TestListScreen() {
     const ds = getDailyStats();
     setConfigs(cfg);
     setDailyStats(ds);
-    const results: Record<number, { percent: number; time: number } | null> = {};
-    const sessions: Record<number, string | null> = {};
+    const best: Record<number, { percent: number; time: number } | null> = {};
+    const lastR: Record<number, { percent: number; time: number } | null> = {};
+    const lastD: Record<number, string | null> = {};
     const allSessions = getSessions();
     for (const task of TASKS) {
-      results[task.id] = getBestResult(task.id);
       const taskSessions = allSessions.filter(s => s.taskId === task.id);
-      sessions[task.id] = taskSessions.length > 0 ? taskSessions[0].date.slice(0, 10) : null;
+      if (taskSessions.length > 0) {
+        let bestSession: (typeof taskSessions)[0] | null = null;
+        let bestPercent = -1;
+        for (const s of taskSessions) {
+          const pct = s.totalCount > 0 ? (s.correctCount / s.totalCount) * 100 : 0;
+          if (pct > bestPercent || (pct === bestPercent && bestSession && s.totalTimeMs < bestSession.totalTimeMs)) {
+            bestSession = s;
+            bestPercent = pct;
+          }
+        }
+        if (bestSession) {
+          best[task.id] = { percent: bestPercent, time: bestSession.totalTimeMs };
+        }
+        const s = taskSessions[0];
+        const pct = s.totalCount > 0 ? (s.correctCount / s.totalCount) * 100 : 0;
+        lastR[task.id] = { percent: pct, time: s.totalTimeMs };
+        lastD[task.id] = s.date.slice(0, 10);
+      }
     }
-    setBestResults(results);
-    setLastSessions(sessions);
+    setBestResults(best);
+    setLastResults(lastR);
+    setLastDates(lastD);
     setWrongCount(getWrongExamples().length);
   }, []);
 
@@ -58,6 +77,13 @@ export default function TestListScreen() {
     if (lastDate === todayStr) return '#22c55e';
     if (lastDate === yesterdayStr) return '#f59e0b';
     return '#ef4444';
+  };
+  const getRecencyLabel = (dateStr: string | null): string => {
+    if (!dateStr) return '';
+    if (dateStr === todayStr) return t('date.today');
+    if (dateStr === yesterdayStr) return t('date.yesterday');
+    const d = new Date(dateStr + 'T00:00:00');
+    return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`;
   };
 
   const weeks: { date: string; level: number; empty: boolean }[][] = [];
@@ -231,6 +257,8 @@ export default function TestListScreen() {
                   <div className="group-title">{t(`group.${group.id}`)}</div>
                   {groupTasks.map(task => {
                     const best = bestResults[task.id];
+                    const last = lastResults[task.id];
+                    const lastDate = lastDates[task.id];
                     return (
                       <button
                         key={task.id}
@@ -247,17 +275,26 @@ export default function TestListScreen() {
                               ❌ {wrongCount}
                             </span>
                           ) : best ? (
-                            <span className="task-best">
-                              🏆 {Math.round(best.percent)}%{' '}
-                              {best.time < 60000
-                                ? `${Math.round(best.time / 1000)}с`
-                                : `${Math.floor(best.time / 60000)}м ${Math.round((best.time % 60000) / 1000)}с`}
-                            </span>
+                            <>
+                              <span className="task-best">🏆 {Math.round(best.percent)}%{' '}
+                                {best.time < 60000
+                                  ? `${Math.round(best.time / 1000)}с`
+                                  : `${Math.floor(best.time / 60000)}м ${Math.round((best.time % 60000) / 1000)}с`}
+                              </span>
+                              {last && (
+                                <span className="task-last">🎖️ {Math.round(last.percent)}%{' '}
+                                  {last.time < 60000
+                                    ? `${Math.round(last.time / 1000)}с`
+                                    : `${Math.floor(last.time / 60000)}м ${Math.round((last.time % 60000) / 1000)}с`}
+                                  {lastDate && <span> (<span className="task-recency" style={{ color: getPlayColor(lastDate) }}>{getRecencyLabel(lastDate)}</span>)</span>}
+                                </span>
+                              )}
+                            </>
                           ) : (
                             <span className="task-new">{t('task.new')}</span>
                           )}
                         </div>
-                        <div className="play-btn" onClick={(e) => { e.stopPropagation(); navigate(`/test/${task.id}`); }} style={{ backgroundColor: getPlayColor(lastSessions[task.id] ?? null) }}>▶</div>
+                        <div className="play-btn" onClick={(e) => { e.stopPropagation(); navigate(`/test/${task.id}`); }} style={{ backgroundColor: getPlayColor(lastDates[task.id] ?? null) }}>▶</div>
                       </button>
                     );
                   })}

@@ -265,35 +265,35 @@ export default function TestListScreen() {
                         className="task-card"
                         onClick={() => navigate(`/test/${task.id}`)}
                       >
-                        <div className="task-info">
-                          <div className="task-name">{t(`task.${task.id}`)}</div>
-                          <div className="task-example">{task.example}</div>
-                        </div>
-                        <div className="task-meta">
+                        <div className="task-left">
+                          <div className="task-info">
+                            <div className="task-name">{t(`task.${task.id}`)}</div>
+                            <div className="task-example">{task.example}</div>
+                          </div>
                           {task.id === 56 ? (
-                            <span className="task-best">
-                              ❌ {wrongCount}
-                            </span>
+                            <div className="task-stats">
+                              <span className="task-best">❌ {wrongCount}</span>
+                            </div>
                           ) : best ? (
-                            <>
+                            <div className="task-stats">
                               <span className="task-best">🏆 {Math.round(best.percent)}%{' '}
                                 {best.time < 60000
                                   ? `${Math.round(best.time / 1000)}с`
                                   : `${Math.floor(best.time / 60000)}м ${Math.round((best.time % 60000) / 1000)}с`}
                               </span>
                               {last && (
-                                <>
-                                  <span className="task-last">🎖️ {Math.round(last.percent)}%{' '}
-                                    {last.time < 60000
-                                      ? `${Math.round(last.time / 1000)}с`
-                                      : `${Math.floor(last.time / 60000)}м ${Math.round((last.time % 60000) / 1000)}с`}
-                                  </span>
-                                  {lastDate && <span className="task-last-date"><span className="task-recency" style={{ color: getPlayColor(lastDate) }}>({getRecencyLabel(lastDate)})</span></span>}
-                                </>
+                                <span className="task-last" style={{ color: getPlayColor(lastDates[task.id] ?? null) }}>🎖️ {Math.round(last.percent)}%{' '}
+                                  {last.time < 60000
+                                    ? `${Math.round(last.time / 1000)}с`
+                                    : `${Math.floor(last.time / 60000)}м ${Math.round((last.time % 60000) / 1000)}с`}
+                                  {lastDate && <> ({getRecencyLabel(lastDate)})</>}
+                                </span>
                               )}
-                            </>
+                            </div>
                           ) : (
-                            <span className="task-new">{t('task.new')}</span>
+                            <div className="task-stats">
+                              <span className="task-new">{t('task.new')}</span>
+                            </div>
                           )}
                         </div>
                         <div className="play-btn" onClick={(e) => { e.stopPropagation(); navigate(`/test/${task.id}`); }} style={{ backgroundColor: getPlayColor(lastDates[task.id] ?? null) }}>▶</div>

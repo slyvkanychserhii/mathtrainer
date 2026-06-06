@@ -501,7 +501,8 @@ html, body, #root {
 
 .task-card {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: stretch;
   background: #fff;
   border-radius: 12px;
   padding: 14px;
@@ -517,8 +518,14 @@ html, body, #root {
   background: #f9fafb;
 }
 
-.task-info {
+.task-left {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.task-info {
+  flex: none;
 }
 
 .task-name {
@@ -533,43 +540,29 @@ html, body, #root {
   margin-top: 2px;
 }
 
-.task-meta {
+.task-stats {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin-right: 12px;
-}
-
-.task-count {
-  font-size: 12px;
-  color: #6b7280;
+  gap: 8px;
+  margin-top: 6px;
 }
 
 .task-best {
   font-size: 12px;
   color: #f59e0b;
   font-weight: 600;
-  margin-top: 8px;
 }
 
 .task-last {
   font-size: 11px;
-  color: #9ca3af;
-  margin-top: 6px;
-}
-
-.task-last-date {
-  font-size: 11px;
-  margin-top: 4px;
-}
-
-.task-recency {
 }
 
 .task-new {
   font-size: 12px;
   color: #9ca3af;
-  margin-top: 2px;
+}
+
+.task-recency-label {
+  font-size: 10px;
 }
 
 .play-btn {
@@ -585,6 +578,8 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  align-self: center;
+  margin-left: 12px;
 }
 
 .play-btn:active {

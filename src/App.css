@@ -566,27 +566,6 @@ html, body, #root {
   font-size: 10px;
 }
 
-.play-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  background: #6366f1;
-  border: none;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  align-self: center;
-  margin-left: 12px;
-}
-
-.play-btn:active {
-  background: #4f46e5;
-}
-
 /* Stats day card */
 .day-card {
   background: #fff;

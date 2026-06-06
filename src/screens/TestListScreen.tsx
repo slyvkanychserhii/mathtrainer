@@ -296,7 +296,6 @@ export default function TestListScreen() {
                             </div>
                           )}
                         </div>
-                        <div className="play-btn" onClick={(e) => { e.stopPropagation(); navigate(`/test/${task.id}`); }} style={{ backgroundColor: getPlayColor(lastDates[task.id] ?? null) }}>▶</div>
                       </button>
                     );
                   })}

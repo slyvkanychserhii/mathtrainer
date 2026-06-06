@@ -108,6 +108,10 @@ export default function TestScreen() {
       setBouncing(false);
       setTransitioning(true);
       setTimeout(() => {
+        if (soundEnabledRef.current && audioReloadRef.current) {
+          audioReloadRef.current.currentTime = 0;
+          audioReloadRef.current.play();
+        }
         setTransitioning(false);
         setCurrentIndex(prev => prev + 1);
       }, transitionPauseRef.current * 1000);
@@ -226,17 +230,13 @@ export default function TestScreen() {
   useEffect(() => {
     if (showIntro) return;
     if (noMistakesRef.current) return;
-    if (transitioning) return;
-    if (soundEnabledRef.current && audioReloadRef.current) {
-      audioReloadRef.current.currentTime = 0;
-      audioReloadRef.current.play();
-    }
-  }, [transitioning]);
-
-  useEffect(() => {
-    if (showIntro) return;
-    if (noMistakesRef.current) return;
-    const timer = setTimeout(() => setTransitioning(false), transitionPauseRef.current * 1000);
+    const timer = setTimeout(() => {
+      if (soundEnabledRef.current && audioReloadRef.current) {
+        audioReloadRef.current.currentTime = 0;
+        audioReloadRef.current.play();
+      }
+      setTransitioning(false);
+    }, transitionPauseRef.current * 1000);
     return () => clearTimeout(timer);
   }, [showIntro]);
 

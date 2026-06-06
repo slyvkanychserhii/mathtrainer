@@ -191,6 +191,7 @@ export default function TestScreen() {
       playClick();
       setInput(prev => prev.slice(0, -1));
     } else if (key === 'ok') {
+      playClick();
       handleSubmit();
     } else if (/^[0-9]$/.test(key) && input.length < MAX_DIGITS) {
       playClick();

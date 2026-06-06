@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setPin, hasPin, checkPin } from '../data/store';
+import { setPin, hasPin, checkPin, getKeypadSoundEnabled } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 
 export default function PinScreen() {
@@ -11,6 +11,41 @@ export default function PinScreen() {
   const [error, setError] = useState('');
   const [shaking, setShaking] = useState(false);
   const { t } = useLocale();
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const clickBufferRef = useRef<AudioBuffer | null>(null);
+  const audioClickRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    setMode(hasPin() ? 'enter' : 'set');
+
+    const base = import.meta.env.BASE_URL || '/';
+    audioClickRef.current = new Audio(`${base}sounds/click.wav`);
+    audioClickRef.current.volume = 0.3;
+    audioClickRef.current.load();
+
+    audioCtxRef.current = new AudioContext();
+    fetch(`${base}sounds/click.wav`)
+      .then(r => r.arrayBuffer())
+      .then(buf => audioCtxRef.current!.decodeAudioData(buf))
+      .then(buf => { clickBufferRef.current = buf; })
+      .catch(() => {});
+  }, []);
+
+  const playClick = useCallback(() => {
+    if (!getKeypadSoundEnabled()) return;
+    const ctx = audioCtxRef.current;
+    const buf = clickBufferRef.current;
+    if (ctx && buf) {
+      if (ctx.state === 'suspended') ctx.resume();
+      const source = ctx.createBufferSource();
+      source.buffer = buf;
+      source.connect(ctx.destination);
+      source.start(0);
+    } else if (audioClickRef.current) {
+      audioClickRef.current.currentTime = 0;
+      audioClickRef.current.play();
+    }
+  }, []);
 
   useEffect(() => {
     setMode(hasPin() ? 'enter' : 'set');
@@ -24,8 +59,10 @@ export default function PinScreen() {
   const handleKeyPress = useCallback((key: string) => {
     setError('');
     if (key === 'del') {
+      playClick();
       setPinState(prev => prev.slice(0, -1));
     } else if (/^[0-9]$/.test(key) && pin.length < 4) {
+      playClick();
       const newPin = pin + key;
       setPinState(newPin);
       if (newPin.length === 4) {

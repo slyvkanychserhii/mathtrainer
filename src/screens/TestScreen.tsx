@@ -391,13 +391,13 @@ export default function TestScreen() {
             {['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'del', 'ok'].map(key => {
               if (key === 'ok') {
                 return (
-                  <button key="ok" className="num-key submit-key" onClick={() => handleKeyPress('ok')}>
+                  <button key="ok" className="num-key submit-key" onPointerDown={() => handleKeyPress('ok')}>
                     {t('numpad.ok')}
                   </button>
                 );
               }
               return (
-                <button key={key} className="num-key" onClick={() => handleKeyPress(key)}>
+                <button key={key} className="num-key" onPointerDown={() => handleKeyPress(key)}>
                   {key === 'del' ? t('numpad.delete') : key}
                 </button>
               );

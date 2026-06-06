@@ -141,14 +141,14 @@ export default function PinScreen() {
           {[['1','2','3'],['4','5','6'],['7','8','9']].map((row, ri) => (
             <div key={ri} className="pin-numpad-row">
               {row.map(key => (
-                <button key={key} className="pin-num-key" onClick={() => handleKeyPress(key)}>{key}</button>
+                <button key={key} className="pin-num-key" onPointerDown={() => handleKeyPress(key)}>{key}</button>
               ))}
             </div>
           ))}
           <div className="pin-numpad-row">
             <div className="pin-num-spacer" />
-            <button className="pin-num-key" onClick={() => handleKeyPress('0')}>0</button>
-            <button className="pin-num-key" onClick={() => handleKeyPress('del')}>{t('numpad.delete')}</button>
+            <button className="pin-num-key" onPointerDown={() => handleKeyPress('0')}>0</button>
+            <button className="pin-num-key" onPointerDown={() => handleKeyPress('del')}>{t('numpad.delete')}</button>
           </div>
         </div>
       </div>

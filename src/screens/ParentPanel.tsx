@@ -83,13 +83,13 @@ export default function ParentPanel() {
   };
 
   const changeMemorySeconds = (delta: number) => {
-    const newVal = Math.min(10, Math.max(0.5, +(memorySeconds + delta).toFixed(1)));
+    const newVal = Math.min(10, Math.max(0.5, +(memorySeconds + delta).toFixed(2)));
     setMemorySecondsState(newVal);
     setMemorySeconds(newVal);
   };
 
   const changeTransitionPause = (delta: number) => {
-    const newVal = Math.min(5, Math.max(0.5, +(transitionPause + delta).toFixed(1)));
+    const newVal = Math.min(5, Math.max(0, +(transitionPause + delta).toFixed(2)));
     setTransitionPauseState(newVal);
     setTransitionPause(newVal);
   };
@@ -165,9 +165,9 @@ export default function ParentPanel() {
           <div className="setting-card" style={{ cursor: 'default' }}>
             <span className="setting-label">{t('parent.transitionPause')}</span>
             <div className="stepper">
-              <button className="stepper-btn" onClick={() => changeTransitionPause(-0.5)}>−</button>
-              <span className="stepper-value">{transitionPause % 1 === 0 ? transitionPause : transitionPause.toFixed(1)}</span>
-              <button className="stepper-btn" onClick={() => changeTransitionPause(0.5)}>+</button>
+              <button className="stepper-btn" onClick={() => changeTransitionPause(-0.1)}>−</button>
+              <span className="stepper-value">{transitionPause.toFixed(2)}</span>
+              <button className="stepper-btn" onClick={() => changeTransitionPause(0.1)}>+</button>
             </div>
           </div>
 
@@ -182,9 +182,9 @@ export default function ParentPanel() {
             <div className="setting-card" style={{ cursor: 'default' }}>
               <span className="setting-label">{t('parent.memorySeconds')}</span>
               <div className="stepper">
-                <button className="stepper-btn" onClick={() => changeMemorySeconds(-0.5)}>−</button>
-                <span className="stepper-value">{memorySeconds % 1 === 0 ? memorySeconds : memorySeconds.toFixed(1)}</span>
-                <button className="stepper-btn" onClick={() => changeMemorySeconds(0.5)}>+</button>
+                <button className="stepper-btn" onClick={() => changeMemorySeconds(-0.1)}>−</button>
+                <span className="stepper-value">{memorySeconds.toFixed(2)}</span>
+                <button className="stepper-btn" onClick={() => changeMemorySeconds(0.1)}>+</button>
               </div>
             </div>
           )}

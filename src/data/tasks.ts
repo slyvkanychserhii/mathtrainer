@@ -266,7 +266,7 @@ export const TASKS: TaskDef[] = [
     })
   },
   {
-    id: 25, name: 'Вычитание с займом из сотен', example: '523 − 54', group: 'three_two',
+    id: 25, name: 'Вычитание с займом из сотен', example: '504 − 23', group: 'three_two',
     generate: () => genWithRetry(() => {
       const a = randInt(200, 999);
       const b = randInt(10, 99);
@@ -374,7 +374,7 @@ export const TASKS: TaskDef[] = [
     })
   },
   {
-    id: 34, name: 'Вычитание с займом из сотен', example: '823 − 254', group: 'three_three',
+    id: 34, name: 'Вычитание с займом из сотен', example: '504 − 213', group: 'three_three',
     generate: () => genWithRetry(() => {
       const a = randInt(200, 999);
       const b = randInt(100, a - 1);
@@ -414,7 +414,7 @@ export const TASKS: TaskDef[] = [
     }
   },
   {
-    id: 38, name: 'Умножение на 2', example: '4 × 2', group: 'multiply',
+    id: 38, name: 'Умножение на 2', example: '2 × 4', group: 'multiply',
     generate: () => {
       const a = randInt(1, 9);
       const b = 2;
@@ -423,7 +423,7 @@ export const TASKS: TaskDef[] = [
     }
   },
   {
-    id: 39, name: 'Умножение на 3', example: '6 × 3', group: 'multiply',
+    id: 39, name: 'Умножение на 3', example: '3 × 6', group: 'multiply',
     generate: () => {
       const a = randInt(1, 9);
       const b = 3;
@@ -432,7 +432,7 @@ export const TASKS: TaskDef[] = [
     }
   },
   {
-    id: 40, name: 'Умножение на 4', example: '8 × 4', group: 'multiply',
+    id: 40, name: 'Умножение на 4', example: '4 × 8', group: 'multiply',
     generate: () => {
       const a = randInt(1, 9);
       const b = 4;
@@ -441,7 +441,7 @@ export const TASKS: TaskDef[] = [
     }
   },
   {
-    id: 41, name: 'Умножение на 5', example: '7 × 5', group: 'multiply',
+    id: 41, name: 'Умножение на 5', example: '5 × 7', group: 'multiply',
     generate: () => {
       const a = randInt(1, 9);
       const b = 5;
@@ -450,7 +450,7 @@ export const TASKS: TaskDef[] = [
     }
   },
   {
-    id: 42, name: 'Умножение на 6', example: '9 × 6', group: 'multiply',
+    id: 42, name: 'Умножение на 6', example: '6 × 9', group: 'multiply',
     generate: () => {
       const a = randInt(1, 9);
       const b = 6;
@@ -459,7 +459,7 @@ export const TASKS: TaskDef[] = [
     }
   },
   {
-    id: 43, name: 'Умножение на 7', example: '5 × 7', group: 'multiply',
+    id: 43, name: 'Умножение на 7', example: '7 × 5', group: 'multiply',
     generate: () => {
       const a = randInt(1, 9);
       const b = 7;
@@ -468,7 +468,7 @@ export const TASKS: TaskDef[] = [
     }
   },
   {
-    id: 44, name: 'Умножение на 8', example: '6 × 8', group: 'multiply',
+    id: 44, name: 'Умножение на 8', example: '8 × 6', group: 'multiply',
     generate: () => {
       const a = randInt(1, 9);
       const b = 8;
@@ -477,7 +477,7 @@ export const TASKS: TaskDef[] = [
     }
   },
   {
-    id: 45, name: 'Умножение на 9', example: '3 × 9', group: 'multiply',
+    id: 45, name: 'Умножение на 9', example: '9 × 3', group: 'multiply',
     generate: () => {
       const a = randInt(1, 9);
       const b = 9;

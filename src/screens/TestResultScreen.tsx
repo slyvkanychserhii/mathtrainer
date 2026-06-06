@@ -31,15 +31,15 @@ export default function TestResultScreen() {
 
   if (pct === 0) {
     statusEmoji = '🤬';
-    statusText = t('result.practice');
+    statusText = t('result.giveUp');
     statusColor = '#dc2626';
   } else if (pct < 25) {
     statusEmoji = '😰';
-    statusText = t('result.practice');
+    statusText = t('result.repeat');
     statusColor = '#f97316';
   } else if (pct < 50) {
     statusEmoji = '😐';
-    statusText = t('result.good');
+    statusText = t('result.normal');
     statusColor = '#eab308';
   } else if (pct < 75) {
     statusEmoji = '🙂';
@@ -51,7 +51,7 @@ export default function TestResultScreen() {
     statusColor = '#16a34a';
   } else {
     statusEmoji = '🥳';
-    statusText = t('result.excellent');
+    statusText = t('result.perfect');
     statusColor = '#6366f1';
   }
 

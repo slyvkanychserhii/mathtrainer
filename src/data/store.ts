@@ -114,9 +114,9 @@ export function setMemoryMode(mode: boolean): void {
 
 export function getMemorySeconds(): number {
   const raw = getItem(KEYS.MEMORY_SECONDS);
-  if (!raw) return 1;
+  if (!raw) return 0.5;
   const n = parseFloat(raw);
-  return isNaN(n) ? 1 : Math.max(0.5, Math.min(10, n));
+  return isNaN(n) ? 0.5 : Math.max(0.5, Math.min(10, n));
 }
 
 export function setMemorySeconds(seconds: number): void {
@@ -125,9 +125,9 @@ export function setMemorySeconds(seconds: number): void {
 
 export function getTransitionPause(): number {
   const raw = getItem(KEYS.TRANSITION_PAUSE);
-  if (!raw) return 1;
+  if (!raw) return 0.5;
   const n = parseFloat(raw);
-  return isNaN(n) ? 1 : Math.max(0.5, Math.min(5, n));
+  return isNaN(n) ? 0.5 : Math.max(0, Math.min(5, n));
 }
 
 export function setTransitionPause(seconds: number): void {

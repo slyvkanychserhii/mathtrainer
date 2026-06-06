@@ -132,24 +132,24 @@ export default function TestScreen() {
     resultsRef.current.push(result);
     setLocked(true);
     if (isCorrect) {
-      setFeedback('correct');
-      setBouncing(true);
-      setTimeout(() => setBouncing(false), 400);
       if (soundEnabledRef.current && audioCorrectRef.current) {
         audioCorrectRef.current.currentTime = 0;
         audioCorrectRef.current.play();
       }
+      setFeedback('correct');
+      setBouncing(true);
+      setTimeout(() => setBouncing(false), 400);
       if (isReview) {
         removeWrongExample({ a: example.a, op: example.op, b: example.b });
       }
     } else {
-      setFeedback('wrong');
-      triggerShake();
-      addWrongExample(result);
       if (soundEnabledRef.current && audioWrongRef.current) {
         audioWrongRef.current.currentTime = 0;
         audioWrongRef.current.play();
       }
+      setFeedback('wrong');
+      triggerShake();
+      addWrongExample(result);
     }
     setTimeout(() => {
       setLocked(false);

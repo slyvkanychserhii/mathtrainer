@@ -566,6 +566,13 @@ html, body, #root {
   font-size: 10px;
 }
 
+.play-icon {
+  font-size: 16px;
+  align-self: center;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
 /* Stats day card */
 .day-card {
   background: #fff;

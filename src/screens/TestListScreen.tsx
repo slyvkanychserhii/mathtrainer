@@ -296,6 +296,7 @@ export default function TestListScreen() {
                             <div className="task-example">{task.example}</div>
                           </div>
                         </div>
+                        <span className="play-icon">▶</span>
                       </button>
                     );
                   })}

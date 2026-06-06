@@ -557,6 +557,10 @@ html, body, #root {
   color: #9ca3af;
 }
 
+.task-last-date {
+  font-size: 11px;
+}
+
 .task-recency {
 }
 

@@ -282,12 +282,14 @@ export default function TestListScreen() {
                                   : `${Math.floor(best.time / 60000)}м ${Math.round((best.time % 60000) / 1000)}с`}
                               </span>
                               {last && (
-                                <span className="task-last">🎖️ {Math.round(last.percent)}%{' '}
-                                  {last.time < 60000
-                                    ? `${Math.round(last.time / 1000)}с`
-                                    : `${Math.floor(last.time / 60000)}м ${Math.round((last.time % 60000) / 1000)}с`}
-                                  {lastDate && <span> (<span className="task-recency" style={{ color: getPlayColor(lastDate) }}>{getRecencyLabel(lastDate)}</span>)</span>}
-                                </span>
+                                <>
+                                  <span className="task-last">🎖️ {Math.round(last.percent)}%{' '}
+                                    {last.time < 60000
+                                      ? `${Math.round(last.time / 1000)}с`
+                                      : `${Math.floor(last.time / 60000)}м ${Math.round((last.time % 60000) / 1000)}с`}
+                                  </span>
+                                  {lastDate && <span className="task-last-date"><span className="task-recency" style={{ color: getPlayColor(lastDate) }}>({getRecencyLabel(lastDate)})</span></span>}
+                                </>
                               )}
                             </>
                           ) : (

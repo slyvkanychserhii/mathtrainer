@@ -50,6 +50,7 @@ const KEYS = {
   MEMORY_MODE: 'mathtrainer_memory_mode',
   MEMORY_SECONDS: 'mathtrainer_memory_seconds',
   TRANSITION_PAUSE: 'mathtrainer_transition_pause',
+  KEYPAD_SOUND_ENABLED: 'mathtrainer_keypad_sound',
   WRONG_EXAMPLES: 'mathtrainer_wrong_examples',
 };
 
@@ -130,6 +131,14 @@ export function getTransitionPause(): number {
 
 export function setTransitionPause(seconds: number): void {
   setItem(KEYS.TRANSITION_PAUSE, String(seconds));
+}
+
+export function getKeypadSoundEnabled(): boolean {
+  return getItem(KEYS.KEYPAD_SOUND_ENABLED) !== '0';
+}
+
+export function setKeypadSoundEnabled(enabled: boolean): void {
+  setItem(KEYS.KEYPAD_SOUND_ENABLED, enabled ? '1' : '0');
 }
 
 function ensureConfigs(): void {

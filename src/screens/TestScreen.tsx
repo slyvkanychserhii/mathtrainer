@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getTaskById } from '../data/tasks';
-import { getExamplesCount, getSoundEnabled, getMemoryMode, getMemorySeconds, getTransitionPause, saveSession, generateId, getWrongExamples, addWrongExample, removeWrongExample, type ExampleResult } from '../data/store';
+import { getExamplesCount, getSoundEnabled, getMemoryMode, getMemorySeconds, getTransitionPause, saveSession, generateId, getWrongExamples, addWrongExample, removeWrongExample, getKeypadSoundEnabled, type ExampleResult } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 
 interface ExampleDef {
@@ -26,6 +26,9 @@ export default function TestScreen() {
   const audioReloadRef = useRef<HTMLAudioElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const wrongBufferRef = useRef<AudioBuffer | null>(null);
+  const clickBufferRef = useRef<AudioBuffer | null>(null);
+  const audioClickRef = useRef<HTMLAudioElement | null>(null);
+  const keypadSoundEnabledRef = useRef(true);
 
   function genUnique(prev: ExampleDef | null): ExampleDef {
     for (let attempt = 0; attempt < 50; attempt++) {
@@ -166,16 +169,34 @@ export default function TestScreen() {
     }, isCorrect ? 500 : 1500);
   }, [input, locked, example, triggerShake, goToNext, isReview, removeWrongExample]);
 
+  const playClick = useCallback(() => {
+    if (!keypadSoundEnabledRef.current) return;
+    const ctx = audioCtxRef.current;
+    const buf = clickBufferRef.current;
+    if (ctx && buf) {
+      if (ctx.state === 'suspended') ctx.resume();
+      const source = ctx.createBufferSource();
+      source.buffer = buf;
+      source.connect(ctx.destination);
+      source.start(0);
+    } else if (audioClickRef.current) {
+      audioClickRef.current.currentTime = 0;
+      audioClickRef.current.play();
+    }
+  }, []);
+
   const handleKeyPress = useCallback((key: string) => {
     if (locked || feedback || transitioning) return;
     if (key === 'del') {
+      playClick();
       setInput(prev => prev.slice(0, -1));
     } else if (key === 'ok') {
       handleSubmit();
     } else if (/^[0-9]$/.test(key) && input.length < MAX_DIGITS) {
+      playClick();
       setInput(prev => prev + key);
     }
-  }, [locked, feedback, transitioning, input, handleSubmit]);
+  }, [locked, feedback, transitioning, input, handleSubmit, playClick]);
 
   const progress = configRef.current.count > 0 ? (currentIndex / configRef.current.count) * 100 : 0;
 
@@ -188,6 +209,7 @@ export default function TestScreen() {
     memoryModeRef.current = mm;
     memorySecondsRef.current = ms;
     transitionPauseRef.current = tp;
+    keypadSoundEnabledRef.current = getKeypadSoundEnabled();
 
     if (isReview) {
       const wrong = getWrongExamples();
@@ -231,19 +253,20 @@ export default function TestScreen() {
     audioCorrectRef.current = new Audio(`${base}sounds/correct.wav`);
     audioWrongRef.current = new Audio(`${base}sounds/wrong.wav`);
     audioReloadRef.current = new Audio(`${base}sounds/reload.wav`);
+    audioClickRef.current = new Audio(`${base}sounds/click.wav`);
     audioCorrectRef.current.volume = 0.6;
     audioWrongRef.current.volume = 0.5;
     audioReloadRef.current.volume = 0.5;
+    audioClickRef.current.volume = 0.3;
     audioCorrectRef.current.load();
     audioWrongRef.current.load();
     audioReloadRef.current.load();
 
     audioCtxRef.current = new AudioContext();
-    fetch(`${base}sounds/wrong.wav`)
-      .then(r => r.arrayBuffer())
-      .then(buf => audioCtxRef.current!.decodeAudioData(buf))
-      .then(buf => { wrongBufferRef.current = buf; })
-      .catch(() => {});
+    Promise.all([
+      fetch(`${base}sounds/wrong.wav`).then(r => r.arrayBuffer()).then(buf => audioCtxRef.current!.decodeAudioData(buf)).then(buf => { wrongBufferRef.current = buf; }),
+      fetch(`${base}sounds/click.wav`).then(r => r.arrayBuffer()).then(buf => audioCtxRef.current!.decodeAudioData(buf)).then(buf => { clickBufferRef.current = buf; }),
+    ]).catch(() => {});
   }, []);
 
   useEffect(() => {

@@ -89,6 +89,7 @@ const ru = {
   'parent.examplesPerSession': 'Заданий в одном раунде',
   'parent.language': 'Язык',
   'parent.sound': 'Звук',
+  'parent.keypadSound': 'Звук нажатия кнопок',
   'parent.statistics': 'Статистика',
   'parent.resetStatistics': 'Сбросить статистику',
   'parent.resetConfirm': 'Все результаты будут удалены. Продолжить?',
@@ -252,6 +253,7 @@ const en: typeof ru = {
   'parent.examplesPerSession': 'Tasks per round',
   'parent.language': 'Language',
   'parent.sound': 'Sound',
+  'parent.keypadSound': 'Keypad click sound',
   'parent.statistics': 'Statistics',
   'parent.resetStatistics': 'Reset statistics',
   'parent.resetConfirm': 'All results will be deleted. Continue?',
@@ -491,6 +493,7 @@ const es: typeof ru = {
   'group.review': 'TRABAJO SOBRE ERRORES',
   'mistakes.empty': '¡No hay errores!',
   'parent.sound': 'Sonido',
+  'parent.keypadSound': 'Sonido de teclas',
 };
 
 const fr: typeof ru = {
@@ -646,6 +649,7 @@ const fr: typeof ru = {
   'group.review': 'TRAVAIL SUR LES ERREURS',
   'mistakes.empty': 'Aucune erreur !',
   'parent.sound': 'Son',
+  'parent.keypadSound': 'Son des touches',
 };
 
 const de: typeof ru = {
@@ -801,6 +805,7 @@ const de: typeof ru = {
   'group.review': 'FEHLERANALYSE',
   'mistakes.empty': 'Keine Fehler!',
   'parent.sound': 'Ton',
+  'parent.keypadSound': 'Tastenklick-Sound',
 };
 
 const it: typeof ru = {
@@ -956,6 +961,7 @@ const it: typeof ru = {
   'group.review': 'LAVORO SUGLI ERRORI',
   'mistakes.empty': 'Nessun errore!',
   'parent.sound': 'Suono',
+  'parent.keypadSound': 'Suono dei tasti',
 };
 
 const pt: typeof ru = {
@@ -1111,6 +1117,7 @@ const pt: typeof ru = {
   'group.review': 'TRABALHO SOBRE ERROS',
   'mistakes.empty': 'Sem erros!',
   'parent.sound': 'Som',
+  'parent.keypadSound': 'Som das teclas',
 };
 
 const uk: typeof ru = {
@@ -1179,6 +1186,7 @@ const uk: typeof ru = {
   'parent.examplesPerSession': 'Завдань за раунд',
   'parent.language': 'Мова',
   'parent.sound': 'Звук',
+  'parent.keypadSound': 'Звук натискання кнопок',
   'parent.statistics': 'Статистика',
   'parent.resetStatistics': 'Скинути статистику',
   'parent.resetConfirm': 'Всі результати будуть видалені. Продовжити?',

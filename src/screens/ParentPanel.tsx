@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TASK_GROUPS, TASKS } from '../data/tasks';
-import { getTaskConfigs, updateTaskConfig, getExamplesCount, setExamplesCount, getSoundEnabled, setSoundEnabled as storeSetSoundEnabled, getMemoryMode, setMemoryMode, getMemorySeconds, setMemorySeconds, getTransitionPause, setTransitionPause, clearSessions, type TaskConfig } from '../data/store';
+import { getTaskConfigs, updateTaskConfig, getExamplesCount, setExamplesCount, getSoundEnabled, setSoundEnabled as storeSetSoundEnabled, getMemoryMode, setMemoryMode, getMemorySeconds, setMemorySeconds, getTransitionPause, setTransitionPause, clearSessions, getKeypadSoundEnabled, setKeypadSoundEnabled as storeSetKeypadSoundEnabled, type TaskConfig } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 
 export default function ParentPanel() {
@@ -13,6 +13,7 @@ export default function ParentPanel() {
   const [memoryMode, setMemoryModeState] = useState(false);
   const [memorySeconds, setMemorySecondsState] = useState(1);
   const [transitionPause, setTransitionPauseState] = useState(1);
+  const [keypadSoundEnabled, setKeypadSoundEnabled] = useState(true);
   const [langModalVisible, setLangModalVisible] = useState(false);
 
   useEffect(() => {
@@ -22,12 +23,14 @@ export default function ParentPanel() {
     const mm = getMemoryMode();
     const ms = getMemorySeconds();
     const tp = getTransitionPause();
+    const kps = getKeypadSoundEnabled();
     setConfigs(c);
     setCount(n);
     setSoundEnabled(s);
     setMemoryModeState(mm);
     setMemorySecondsState(ms);
     setTransitionPauseState(tp);
+    setKeypadSoundEnabled(kps);
   }, []);
 
   const toggleTask = (taskId: number) => {
@@ -56,6 +59,12 @@ export default function ParentPanel() {
     const next = !soundEnabled;
     setSoundEnabled(next);
     storeSetSoundEnabled(next);
+  };
+
+  const toggleKeypadSound = () => {
+    const next = !keypadSoundEnabled;
+    setKeypadSoundEnabled(next);
+    storeSetKeypadSoundEnabled(next);
   };
 
   const toggleMemoryMode = () => {
@@ -115,6 +124,13 @@ export default function ParentPanel() {
           <div className="setting-card" style={{ cursor: 'default' }}>
             <span className="setting-label">{t('parent.sound')}</span>
             <button className={`toggle ${soundEnabled ? 'toggle-on' : ''}`} onClick={toggleSound}>
+              <div className="toggle-knob" />
+            </button>
+          </div>
+
+          <div className="setting-card" style={{ cursor: 'default' }}>
+            <span className="setting-label">{t('parent.keypadSound')}</span>
+            <button className={`toggle ${keypadSoundEnabled ? 'toggle-on' : ''}`} onClick={toggleKeypadSound}>
               <div className="toggle-knob" />
             </button>
           </div>

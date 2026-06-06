@@ -276,28 +276,24 @@ export default function TestListScreen() {
                             </div>
                           ) : best ? (
                             <div className="task-stats">
-                              <div className="task-stats-col">
-                                <span className="task-stats-label">{t('task.best')}</span>
-                                <span className="task-best">🏆 {Math.round(best.percent)}%{' '}
-                                  {best.time < 60000
-                                    ? `${Math.round(best.time / 1000)}с`
-                                    : `${Math.floor(best.time / 60000)}м ${Math.round((best.time % 60000) / 1000)}с`}
+                              <span className="task-stats-label">{t('task.best')}</span>
+                              <span className="task-best">🏆 {Math.round(best.percent)}%{' '}
+                                {best.time < 60000
+                                  ? `${Math.round(best.time / 1000)}с`
+                                  : `${Math.floor(best.time / 60000)}м ${Math.round((best.time % 60000) / 1000)}с`}
+                              </span>
+                              <span className="task-stats-divider">|</span>
+                              <span className="task-stats-label">{t('task.lastSession')}</span>
+                              {last ? (
+                                <span className="task-last" style={{ color: getPlayColor(lastDates[task.id] ?? null) }}>🎖️ {Math.round(last.percent)}%{' '}
+                                  {last.time < 60000
+                                    ? `${Math.round(last.time / 1000)}с`
+                                    : `${Math.floor(last.time / 60000)}м ${Math.round((last.time % 60000) / 1000)}с`}
+                                  {lastDate && <> ({getRecencyLabel(lastDate)})</>}
                                 </span>
-                              </div>
-                              <div className="task-stats-divider" />
-                              <div className="task-stats-col">
-                                <span className="task-stats-label">{t('task.lastSession')}</span>
-                                {last ? (
-                                  <span className="task-last" style={{ color: getPlayColor(lastDates[task.id] ?? null) }}>🎖️ {Math.round(last.percent)}%{' '}
-                                    {last.time < 60000
-                                      ? `${Math.round(last.time / 1000)}с`
-                                      : `${Math.floor(last.time / 60000)}м ${Math.round((last.time % 60000) / 1000)}с`}
-                                    {lastDate && <> ({getRecencyLabel(lastDate)})</>}
-                                  </span>
-                                ) : (
-                                  <span className="task-last">—</span>
-                                )}
-                              </div>
+                              ) : (
+                                <span className="task-last">—</span>
+                              )}
                             </div>
                           ) : (
                             <div className="task-stats">

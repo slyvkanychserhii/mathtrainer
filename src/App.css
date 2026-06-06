@@ -535,33 +535,24 @@ html, body, #root {
 }
 
 .task-example {
-  font-size: 14px;
+  font-size: 20px;
   color: #9ca3af;
   margin-top: 2px;
 }
 
 .task-stats {
   display: flex;
-  flex-direction: row;
-  gap: 0;
+  gap: 4px;
   margin-top: auto;
   padding-top: 8px;
   border-top: 1px solid #e5e7eb;
-}
-
-.task-stats-col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
+  justify-content: flex-start;
+  align-items: baseline;
+  flex-wrap: wrap;
 }
 
 .task-stats-divider {
-  width: 1px;
-  background: #d1d5db;
-  align-self: stretch;
-  flex: none;
+  color: #d1d5db;
 }
 
 .task-stats-label {
@@ -976,7 +967,7 @@ html, body, #root {
 }
 
 .result-emoji {
-  font-size: 48px;
+  font-size: 64px;
   margin-bottom: 8px;
 }
 

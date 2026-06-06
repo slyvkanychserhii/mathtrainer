@@ -27,20 +27,32 @@ export default function TestResultScreen() {
 
   let statusEmoji: string;
   let statusText: string;
-  let statusGradient: string;
+  let statusColor: string;
 
-  if (pct >= 80) {
-    statusEmoji = '🎉';
-    statusText = t('result.excellent');
-    statusGradient = '#22c55e';
-  } else if (pct >= 50) {
-    statusEmoji = '👍';
-    statusText = t('result.good');
-    statusGradient = '#f59e0b';
-  } else {
-    statusEmoji = '💪';
+  if (pct === 0) {
+    statusEmoji = '🤬';
     statusText = t('result.practice');
-    statusGradient = '#ef4444';
+    statusColor = '#dc2626';
+  } else if (pct < 25) {
+    statusEmoji = '😰';
+    statusText = t('result.practice');
+    statusColor = '#f97316';
+  } else if (pct < 50) {
+    statusEmoji = '😐';
+    statusText = t('result.good');
+    statusColor = '#eab308';
+  } else if (pct < 75) {
+    statusEmoji = '🙂';
+    statusText = t('result.good');
+    statusColor = '#22c55e';
+  } else if (pct < 100) {
+    statusEmoji = '😊';
+    statusText = t('result.excellent');
+    statusColor = '#16a34a';
+  } else {
+    statusEmoji = '🥳';
+    statusText = t('result.excellent');
+    statusColor = '#6366f1';
   }
 
   const totalSec = Math.round(session.totalTimeMs / 1000);
@@ -54,9 +66,9 @@ export default function TestResultScreen() {
 
   return (
     <div className="app-container">
-      <div className="result-header" style={{ background: statusGradient }}>
+      <div className="result-header">
         <div className="result-emoji">{statusEmoji}</div>
-        <div style={{ fontSize: 28, fontWeight: 700, color: '#fff' }}>{statusText}</div>
+        <div style={{ fontSize: 28, fontWeight: 700, color: statusColor }}>{statusText}</div>
       </div>
 
       <div style={{ flex: 1, padding: 20 }}>
@@ -66,7 +78,7 @@ export default function TestResultScreen() {
             <div className="stat-label">{t('result.label')}</div>
           </div>
           <div className="stat-card">
-            <div className="stat-value">{pct}%</div>
+            <div className="stat-value" style={{ color: statusColor }}>{pct}%</div>
             <div className="stat-label">{t('percent.label')}</div>
           </div>
         </div>

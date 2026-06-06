@@ -48,6 +48,8 @@ const ru = {
   'home.howToChangeTasks': 'Нажмите «Настройки» вверху, чтобы изменить список заданий',
 
   'task.new': 'новый',
+  'task.best': 'Лучший:',
+  'task.lastSession': 'Последний:',
 
   'numpad.ok': 'OK',
   'numpad.delete': '⌫',
@@ -214,6 +216,8 @@ const en: typeof ru = {
   'home.howToChangeTasks': 'Tap «Settings» at the top to change the task list',
 
   'task.new': 'new',
+  'task.best': 'Best:',
+  'task.lastSession': 'Last:',
 
   'numpad.ok': 'OK',
   'numpad.delete': '⌫',
@@ -379,6 +383,8 @@ const es: typeof ru = {
   'home.howToChangeTasks': 'Toca «Ajustes» arriba para cambiar la lista de tareas',
 
   'task.new': 'nuevo',
+  'task.best': 'Mejor:',
+  'task.lastSession': 'Último:',
 
   'feedback.correctAnswer': 'Correcto: {answer}',
   'test.memoryHint': '🧠 Modo memoria — la tarea aparecerá en la pantalla y desaparecerá en unos segundos. Intenta decirla en voz alta para recordarla.',
@@ -536,8 +542,10 @@ const fr: typeof ru = {
   'home.howToChangeTasks': 'Appuyez sur «Paramètres» en haut pour modifier la liste des exercices',
 
   'task.new': 'nouveau',
+  'task.best': 'Meilleur:',
+  'task.lastSession': 'Dernier:',
 
-  'feedback.correctAnswer': 'Correct : {answer}',
+  'feedback.correctAnswer': 'Correct : {answer}',
   'test.memoryHint': '🧠 Mode mémoire — l\'exercice apparaîtra à l\'écran et disparaîtra après quelques secondes. Essayez de le dire à voix haute pour le mémoriser.',
   'test.memoryStart': 'Commencer',
   'test.title': 'Entraînement',
@@ -693,6 +701,8 @@ const de: typeof ru = {
   'home.howToChangeTasks': 'Tippe oben auf «Einstellungen», um die Aufgabenliste zu ändern',
 
   'task.new': 'neu',
+  'task.best': 'Bester:',
+  'task.lastSession': 'Letzter:',
 
   'feedback.correctAnswer': 'Richtig: {answer}',
   'test.memoryHint': '🧠 Erinnerungsmodus — die Aufgabe wird auf dem Bildschirm erscheinen und nach einigen Sekunden verschwinden. Versuche, sie laut zu sagen, um sie dir zu merken.',
@@ -850,6 +860,8 @@ const it: typeof ru = {
   'home.howToChangeTasks': 'Tocca «Impostazioni» in alto per cambiare la lista degli esercizi',
 
   'task.new': 'nuovo',
+  'task.best': 'Migliore:',
+  'task.lastSession': 'Ultimo:',
 
   'feedback.correctAnswer': 'Corretto: {answer}',
   'test.memoryHint': '🧠 Modalità memoria — l\'esercizio apparirà sullo schermo e scomparirà dopo qualche secondo. Prova a dirlo ad alta voce per ricordarlo.',
@@ -1007,6 +1019,8 @@ const pt: typeof ru = {
   'home.howToChangeTasks': 'Toque em «Configurações» acima para alterar a lista de tarefas',
 
   'task.new': 'novo',
+  'task.best': 'Melhor:',
+  'task.lastSession': 'Último:',
 
   'feedback.correctAnswer': 'Correto: {answer}',
   'test.memoryHint': '🧠 Modo memória — a tarefa aparecerá na tela e desaparecerá após alguns segundos. Tente dizê-la em voz alta para memorizá-la.',
@@ -1160,6 +1174,8 @@ const uk: typeof ru = {
   'home.howToChangeTasks': 'Натисніть «Налаштування» зверху, щоб змінити список завдань',
 
   'task.new': 'новий',
+  'task.best': 'Найкращий:',
+  'task.lastSession': 'Останній:',
 
   'feedback.correctAnswer': 'Правильно: {answer}',
   'test.memoryHint': '🧠 Режим пам\'яті — завдання з\'явиться на екрані та через кілька секунд зникне. Спробуйте проговорити його вголос, щоб запам\'ятати.',

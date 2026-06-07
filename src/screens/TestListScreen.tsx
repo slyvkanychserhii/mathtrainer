@@ -10,8 +10,6 @@ export default function TestListScreen() {
   const navigate = useNavigate();
   const { t } = useLocale();
   const [configs, setConfigs] = useState<TaskConfig[] | null>(null);
-  const [bestResults, setBestResults] = useState<Record<number, { percent: number; time: number } | null>>({});
-  const [lastResults, setLastResults] = useState<Record<number, { percent: number; time: number } | null>>({});
   const [lastDates, setLastDates] = useState<Record<number, string | null>>({});
   const [wrongCount, setWrongCount] = useState(0);
   const [dailyStats, setDailyStats] = useState<DailyStat[] | null>(null);
@@ -22,33 +20,14 @@ export default function TestListScreen() {
     const ds = getDailyStats();
     setConfigs(cfg);
     setDailyStats(ds);
-    const best: Record<number, { percent: number; time: number } | null> = {};
-    const lastR: Record<number, { percent: number; time: number } | null> = {};
     const lastD: Record<number, string | null> = {};
     const allSessions = getSessions();
     for (const task of TASKS) {
       const taskSessions = allSessions.filter(s => s.taskId === task.id);
       if (taskSessions.length > 0) {
-        let bestSession: (typeof taskSessions)[0] | null = null;
-        let bestPercent = -1;
-        for (const s of taskSessions) {
-          const pct = s.totalCount > 0 ? (s.correctCount / s.totalCount) * 100 : 0;
-          if (pct > bestPercent || (pct === bestPercent && bestSession && s.totalTimeMs < bestSession.totalTimeMs)) {
-            bestSession = s;
-            bestPercent = pct;
-          }
-        }
-        if (bestSession) {
-          best[task.id] = { percent: bestPercent, time: bestSession.totalTimeMs };
-        }
-        const s = taskSessions[0];
-        const pct = s.totalCount > 0 ? (s.correctCount / s.totalCount) * 100 : 0;
-        lastR[task.id] = { percent: pct, time: s.totalTimeMs };
-        lastD[task.id] = s.date.slice(0, 10);
+        lastD[task.id] = taskSessions[0].date.slice(0, 10);
       }
     }
-    setBestResults(best);
-    setLastResults(lastR);
     setLastDates(lastD);
     setWrongCount(getWrongExamples().length);
   }, []);
@@ -256,8 +235,6 @@ export default function TestListScreen() {
                 <div key={group.id} className="group-section">
                   <div className="group-title">{t(`group.${group.id}`)}</div>
                   {groupTasks.map(task => {
-                    const best = bestResults[task.id];
-                    const last = lastResults[task.id];
                     const lastDate = lastDates[task.id];
                     return (
                       <button
@@ -274,26 +251,9 @@ export default function TestListScreen() {
                             <div className="task-stats">
                               <span className="task-best">❌ {wrongCount}</span>
                             </div>
-                          ) : best ? (
+                          ) : lastDate ? (
                             <div className="task-stats">
-                              <span className="task-stats-label">{t('task.best')}</span>
-                              <span className="task-best">🏆 {Math.round(best.percent)}%{' '}
-                                {best.time < 60000
-                                  ? `${Math.round(best.time / 1000)}с`
-                                  : `${Math.floor(best.time / 60000)}м ${Math.round((best.time % 60000) / 1000)}с`}
-                              </span>
-                              <span className="task-stats-divider">|</span>
-                              <span className="task-stats-label">{t('task.lastSession')}</span>
-                              {last ? (
-                                <span className="task-last" style={{ color: getPlayColor(lastDates[task.id] ?? null) }}>🎖️ {Math.round(last.percent)}%{' '}
-                                  {last.time < 60000
-                                    ? `${Math.round(last.time / 1000)}с`
-                                    : `${Math.floor(last.time / 60000)}м ${Math.round((last.time % 60000) / 1000)}с`}
-                                  {lastDate && <> ({getRecencyLabel(lastDate)})</>}
-                                </span>
-                              ) : (
-                                <span className="task-last">—</span>
-                              )}
+                              <span className="task-recency" style={{ color: getPlayColor(lastDate) }}>{getRecencyLabel(lastDate)}</span>
                             </div>
                           ) : (
                             <div className="task-stats">

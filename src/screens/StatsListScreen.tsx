@@ -13,10 +13,10 @@ function formatDate(iso: string): string {
   return `${dd}.${mm}.${yyyy} ${hh}:${min}`;
 }
 
-function formatTime(ms: number): string {
+function formatTime(ms: number, t: (key: string, params?: Record<string, string | number>) => string): string {
   const sec = Math.round(ms / 1000);
-  if (sec >= 60) return `${Math.floor(sec / 60)}м ${sec % 60}с`;
-  return `${sec}с`;
+  if (sec >= 60) return t('time.format', { m: Math.floor(sec / 60), s: sec % 60 });
+  return t('time.seconds', { s: sec });
 }
 
 export default function StatsListScreen() {
@@ -122,7 +122,7 @@ export default function StatsListScreen() {
                             <span className="stats-card-date">{formatDate(session.date)}</span>
                             <div className="stats-card-stats">
                               <span className="stats-card-stat">{t('stats.correct', { correct: session.correctCount, total: session.totalCount })}</span>
-                              <span className="stats-card-stat">{t('stats.time', { time: formatTime(session.totalTimeMs) })}</span>
+                              <span className="stats-card-stat">{t('stats.time', { time: formatTime(session.totalTimeMs, t) })}</span>
                             </div>
                           </div>
                           <div className="mini-bar">

@@ -224,22 +224,6 @@ export function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
 
-export function getBestResult(taskId: number): { percent: number; time: number } | null {
-  const sessions = getSessions().filter(s => s.taskId === taskId);
-  if (sessions.length === 0) return null;
-  let best: TestSession | null = null;
-  let bestPercent = -1;
-  for (const s of sessions) {
-    const pct = s.totalCount > 0 ? (s.correctCount / s.totalCount) * 100 : 0;
-    if (pct > bestPercent || (pct === bestPercent && best && s.totalTimeMs < best.totalTimeMs)) {
-      best = s;
-      bestPercent = pct;
-    }
-  }
-  if (!best) return null;
-  return { percent: bestPercent, time: best.totalTimeMs };
-}
-
 export function clearSessions(): void {
   removeItem(KEYS.SESSIONS);
   removeItem(KEYS.WRONG_EXAMPLES);

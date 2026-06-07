@@ -41,9 +41,10 @@ export default function TestScreen() {
   const isReview = taskId === '56';
   const [examples, setExamples] = useState<ExampleDef[]>(() => {
     if (isReview) return [];
+    const n = getExamplesCount();
     const initial: ExampleDef[] = [];
     let last: ExampleDef | null = null;
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < n; i++) {
       const ex = genUnique(last);
       initial.push(ex);
       last = ex;
@@ -244,16 +245,7 @@ export default function TestScreen() {
         configRef.current = { count };
       }
     } else {
-      const n = getExamplesCount();
-      configRef.current = { count: n };
-      const newExamples: ExampleDef[] = [];
-      let last: ExampleDef | null = null;
-      for (let i = 0; i < n; i++) {
-        const ex = genUnique(last);
-        newExamples.push(ex);
-        last = ex;
-      }
-      setExamples(newExamples);
+      configRef.current = { count: getExamplesCount() };
     }
 
     const base = import.meta.env.BASE_URL || '/';

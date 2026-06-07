@@ -47,9 +47,8 @@ const ru = {
   'empty.askParent': 'Попросите родителя включить задания в настройках',
   'home.howToChangeTasks': 'Нажмите «Настройки» вверху, чтобы изменить список заданий',
 
-  'task.new': 'новый',
-  'task.best': 'Лучший:',
-  'task.lastSession': 'Последний:',
+  'task.new': 'Новый',
+
 
   'numpad.ok': 'OK',
   'numpad.delete': '⌫',
@@ -64,7 +63,7 @@ const ru = {
 
   'result.excellent': 'Отлично!',
   'result.good': 'Хорошо!',
-  'result.practice': 'Нужно потренироваться!',
+
   'result.giveUp': 'Не сдавайся!',
   'result.repeat': 'Повторим?',
   'result.normal': 'Нормально',
@@ -73,8 +72,8 @@ const ru = {
   'percent.label': 'Процент',
   'time.format': '{m}м {s}с',
   'time.seconds': '{s}с',
-  'date.today': 'сегодня',
-  'date.yesterday': 'вчера',
+  'date.today': 'Сегодня',
+  'date.yesterday': 'Вчера',
 
   'button.tryAgain': 'Ещё раз',
   'button.stats': 'Статистика',
@@ -219,9 +218,8 @@ const en: typeof ru = {
   'empty.askParent': 'Ask a parent to enable tasks in settings',
   'home.howToChangeTasks': 'Tap «Settings» at the top to change the task list',
 
-  'task.new': 'new',
-  'task.best': 'Best:',
-  'task.lastSession': 'Last:',
+  'task.new': 'New',
+
 
   'numpad.ok': 'OK',
   'numpad.delete': '⌫',
@@ -235,7 +233,7 @@ const en: typeof ru = {
   'feedback.correctAnswer': 'Correct: {answer}',
   'result.excellent': 'Excellent!',
   'result.good': 'Good!',
-  'result.practice': 'Need to practice!',
+
   'result.giveUp': 'Don\'t give up!',
   'result.repeat': 'Try again?',
   'result.normal': 'Okay',
@@ -390,9 +388,8 @@ const es: typeof ru = {
   'empty.askParent': 'Pide a un padre que active las tareas en ajustes',
   'home.howToChangeTasks': 'Toca «Ajustes» arriba para cambiar la lista de tareas',
 
-  'task.new': 'nuevo',
-  'task.best': 'Mejor:',
-  'task.lastSession': 'Último:',
+  'task.new': 'Nuevo',
+
 
   'feedback.correctAnswer': 'Correcto: {answer}',
   'test.memoryHint': '🧠 Modo memoria — la tarea aparecerá en la pantalla y desaparecerá en unos segundos. Intenta decirla en voz alta para recordarla.',
@@ -401,7 +398,7 @@ const es: typeof ru = {
   'test.confirmExit': '¿Interrumpir el entrenamiento?',
   'result.excellent': '¡Excelente!',
   'result.good': '¡Bien!',
-  'result.practice': '¡Necesitas practicar!',
+
   'result.giveUp': '¡No te rindas!',
   'result.repeat': '¿Repetimos?',
   'result.normal': 'Normal',
@@ -409,6 +406,9 @@ const es: typeof ru = {
   'result.label': 'Resultado',
   'percent.label': 'Porcentaje',
   'time.format': '{m}m {s}s',
+  'time.seconds': '{s}s',
+  'date.today': 'Hoy',
+  'date.yesterday': 'Ayer',
 
   'button.tryAgain': 'Otra vez',
   'button.stats': 'Estadísticas',
@@ -553,9 +553,8 @@ const fr: typeof ru = {
   'empty.askParent': 'Demandez à un parent d\'activer les exercices dans les paramètres',
   'home.howToChangeTasks': 'Appuyez sur «Paramètres» en haut pour modifier la liste des exercices',
 
-  'task.new': 'nouveau',
-  'task.best': 'Meilleur:',
-  'task.lastSession': 'Dernier:',
+  'task.new': 'Nouveau',
+
 
   'feedback.correctAnswer': 'Correct : {answer}',
   'test.memoryHint': '🧠 Mode mémoire — l\'exercice apparaîtra à l\'écran et disparaîtra après quelques secondes. Essayez de le dire à voix haute pour le mémoriser.',
@@ -564,7 +563,7 @@ const fr: typeof ru = {
   'test.confirmExit': 'Interrompre l\'entraînement ?',
   'result.excellent': 'Excellent !',
   'result.good': 'Bien !',
-  'result.practice': 'Besoin de pratiquer !',
+
   'result.giveUp': 'N\'abandonne pas !',
   'result.repeat': 'On recommence ?',
   'result.normal': 'Normal',
@@ -572,6 +571,9 @@ const fr: typeof ru = {
   'result.label': 'Résultat',
   'percent.label': 'Pourcentage',
   'time.format': '{m}m {s}s',
+  'time.seconds': '{s}s',
+  'date.today': "Aujourd'hui",
+  'date.yesterday': 'Hier',
 
   'button.tryAgain': 'Encore',
   'button.stats': 'Statistiques',
@@ -716,9 +718,8 @@ const de: typeof ru = {
   'empty.askParent': 'Bitte Eltern, die Aufgaben in den Einstellungen zu aktivieren',
   'home.howToChangeTasks': 'Tippe oben auf «Einstellungen», um die Aufgabenliste zu ändern',
 
-  'task.new': 'neu',
-  'task.best': 'Bester:',
-  'task.lastSession': 'Letzter:',
+  'task.new': 'Neu',
+
 
   'feedback.correctAnswer': 'Richtig: {answer}',
   'test.memoryHint': '🧠 Erinnerungsmodus — die Aufgabe wird auf dem Bildschirm erscheinen und nach einigen Sekunden verschwinden. Versuche, sie laut zu sagen, um sie dir zu merken.',
@@ -727,7 +728,7 @@ const de: typeof ru = {
   'test.confirmExit': 'Training abbrechen?',
   'result.excellent': 'Ausgezeichnet!',
   'result.good': 'Gut!',
-  'result.practice': 'Weiter üben!',
+
   'result.giveUp': 'Gib nicht auf!',
   'result.repeat': 'Nochmal?',
   'result.normal': 'Normal',
@@ -735,6 +736,9 @@ const de: typeof ru = {
   'result.label': 'Ergebnis',
   'percent.label': 'Prozent',
   'time.format': '{m}m {s}s',
+  'time.seconds': '{s}s',
+  'date.today': 'Heute',
+  'date.yesterday': 'Gestern',
 
   'button.tryAgain': 'Nochmal',
   'button.stats': 'Statistiken',
@@ -879,9 +883,8 @@ const it: typeof ru = {
   'empty.askParent': 'Chiedi a un genitore di attivare gli esercizi nelle impostazioni',
   'home.howToChangeTasks': 'Tocca «Impostazioni» in alto per cambiare la lista degli esercizi',
 
-  'task.new': 'nuovo',
-  'task.best': 'Migliore:',
-  'task.lastSession': 'Ultimo:',
+  'task.new': 'Nuovo',
+
 
   'feedback.correctAnswer': 'Corretto: {answer}',
   'test.memoryHint': '🧠 Modalità memoria — l\'esercizio apparirà sullo schermo e scomparirà dopo qualche secondo. Prova a dirlo ad alta voce per ricordarlo.',
@@ -890,7 +893,7 @@ const it: typeof ru = {
   'test.confirmExit': 'Interrompere l\'allenamento?',
   'result.excellent': 'Eccellente!',
   'result.good': 'Bravo!',
-  'result.practice': 'Devi esercitarti!',
+
   'result.giveUp': 'Non arrenderti!',
   'result.repeat': 'Riproviamo?',
   'result.normal': 'Normale',
@@ -898,6 +901,9 @@ const it: typeof ru = {
   'result.label': 'Risultato',
   'percent.label': 'Percentuale',
   'time.format': '{m}m {s}s',
+  'time.seconds': '{s}s',
+  'date.today': 'Oggi',
+  'date.yesterday': 'Ieri',
 
   'button.tryAgain': 'Ancora',
   'button.stats': 'Statistiche',
@@ -1042,9 +1048,8 @@ const pt: typeof ru = {
   'empty.askParent': 'Peça a um responsável para ativar as tarefas nas configurações',
   'home.howToChangeTasks': 'Toque em «Configurações» acima para alterar a lista de tarefas',
 
-  'task.new': 'novo',
-  'task.best': 'Melhor:',
-  'task.lastSession': 'Último:',
+  'task.new': 'Novo',
+
 
   'feedback.correctAnswer': 'Correto: {answer}',
   'test.memoryHint': '🧠 Modo memória — a tarefa aparecerá na tela e desaparecerá após alguns segundos. Tente dizê-la em voz alta para memorizá-la.',
@@ -1053,7 +1058,7 @@ const pt: typeof ru = {
   'test.confirmExit': 'Interromper o treino?',
   'result.excellent': 'Excelente!',
   'result.good': 'Bom!',
-  'result.practice': 'Precisa praticar!',
+
   'result.giveUp': 'Não desista!',
   'result.repeat': 'Tentar de novo?',
   'result.normal': 'Normal',
@@ -1061,6 +1066,9 @@ const pt: typeof ru = {
   'result.label': 'Resultado',
   'percent.label': 'Percentual',
   'time.format': '{m}m {s}s',
+  'time.seconds': '{s}s',
+  'date.today': 'Hoje',
+  'date.yesterday': 'Ontem',
 
   'button.tryAgain': 'Tentar de novo',
   'button.stats': 'Estatísticas',
@@ -1197,13 +1205,16 @@ const uk: typeof ru = {
   'weekday.short.6': 'Сб',
   'weekday.short.7': 'Нд',
 
+  'streak.days': 'днів без перерви',
+  'streak.day': 'день без перерви',
+  'streak.days2': 'дні без перерви',
+
   'empty.noActiveTests': 'Немає активних тестів',
   'empty.askParent': 'Попросіть батьків увімкнути завдання в налаштуваннях',
   'home.howToChangeTasks': 'Натисніть «Налаштування» зверху, щоб змінити список завдань',
 
-  'task.new': 'новий',
-  'task.best': 'Найкращий:',
-  'task.lastSession': 'Останній:',
+  'task.new': 'Новий',
+
 
   'feedback.correctAnswer': 'Правильно: {answer}',
   'test.memoryHint': '🧠 Режим пам\'яті — завдання з\'явиться на екрані та через кілька секунд зникне. Спробуйте проговорити його вголос, щоб запам\'ятати.',
@@ -1212,7 +1223,7 @@ const uk: typeof ru = {
   'test.confirmExit': 'Перервати тренування?',
   'result.excellent': 'Чудово!',
   'result.good': 'Добре!',
-  'result.practice': 'Потрібно тренуватися!',
+
   'result.giveUp': 'Не здавайся!',
   'result.repeat': 'Повторимо?',
   'result.normal': 'Нормально',
@@ -1221,6 +1232,8 @@ const uk: typeof ru = {
   'percent.label': 'Відсоток',
   'time.format': '{m}хв {s}с',
   'time.seconds': '{s}с',
+  'date.today': 'Сьогодні',
+  'date.yesterday': 'Вчора',
 
   'button.tryAgain': 'Ще раз',
   'button.stats': 'Статистика',

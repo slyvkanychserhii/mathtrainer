@@ -474,7 +474,7 @@ html, body, #root {
 .memory-tap-icon {
   position: absolute;
   font-size: 56px;
-  left: 25%;
+  left: -30%;
   bottom: -60px;
   margin-left: -28px;
   z-index: 1;

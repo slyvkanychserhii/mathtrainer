@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TASK_GROUPS, TASKS } from '../data/tasks';
-import { getTaskConfigs, updateTaskConfig, getExamplesCount, setExamplesCount, getSoundEnabled, setSoundEnabled as storeSetSoundEnabled, getMemoryMode, setMemoryMode, getMemorySeconds, setMemorySeconds, getTransitionPause, setTransitionPause, clearSessions, getKeypadSoundEnabled, setKeypadSoundEnabled as storeSetKeypadSoundEnabled, getKeypadSoundVolume, setKeypadSoundVolume as storeSetKeypadSoundVolume, type TaskConfig } from '../data/store';
+import { getTaskConfigs, updateTaskConfig, getExamplesCount, setExamplesCount, getSoundEnabled, setSoundEnabled, getMemoryMode, setMemoryMode, getMemorySeconds, setMemorySeconds, getTransitionPause, setTransitionPause, clearSessions, getKeypadSoundEnabled, setKeypadSoundEnabled, getKeypadSoundVolume, setKeypadSoundVolume, type TaskConfig } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 
 export default function ParentPanel() {
@@ -9,12 +9,14 @@ export default function ParentPanel() {
   const { t, locale, setLocale, supportedLocales } = useLocale();
   const [configs, setConfigs] = useState<TaskConfig[] | null>(null);
   const [count, setCount] = useState(10);
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [memoryMode, setMemoryModeState] = useState(false);
-  const [memorySeconds, setMemorySecondsState] = useState(1);
-  const [transitionPause, setTransitionPauseState] = useState(1);
-  const [keypadSoundEnabled, setKeypadSoundEnabled] = useState(true);
-  const [keypadSoundVolume, setKeypadSoundVolume] = useState(0.3);
+  const [soundEnabled, setSoundEnabledState] = useState(true);
+
+  const [keypadSoundEnabled, setKeypadSoundEnabledState] = useState(true);
+
+  const [keypadSoundVolume, setKeypadSoundVolumeState] = useState(0.3);
+  const [memoryMode, setMemoryModeState] = useState(getMemoryMode());
+  const [memorySeconds, setMemorySecondsState] = useState(getMemorySeconds());
+  const [transitionPause, setTransitionPauseState] = useState(getTransitionPause());
   const [langModalVisible, setLangModalVisible] = useState(false);
 
   useEffect(() => {
@@ -28,12 +30,12 @@ export default function ParentPanel() {
     const kpv = getKeypadSoundVolume();
     setConfigs(c);
     setCount(n);
-    setSoundEnabled(s);
+    setSoundEnabledState(s);
     setMemoryModeState(mm);
     setMemorySecondsState(ms);
     setTransitionPauseState(tp);
-    setKeypadSoundEnabled(kps);
-    setKeypadSoundVolume(kpv);
+    setKeypadSoundEnabledState(kps);
+    setKeypadSoundVolumeState(kpv);
   }, []);
 
   const toggleTask = (taskId: number) => {
@@ -60,20 +62,20 @@ export default function ParentPanel() {
 
   const toggleSound = () => {
     const next = !soundEnabled;
+    setSoundEnabledState(next);
     setSoundEnabled(next);
-    storeSetSoundEnabled(next);
   };
 
   const toggleKeypadSound = () => {
     const next = !keypadSoundEnabled;
+    setKeypadSoundEnabledState(next);
     setKeypadSoundEnabled(next);
-    storeSetKeypadSoundEnabled(next);
   };
 
   const changeKeypadVolume = (delta: number) => {
     const newVal = Math.min(1, Math.max(0, +(keypadSoundVolume + delta).toFixed(1)));
+    setKeypadSoundVolumeState(newVal);
     setKeypadSoundVolume(newVal);
-    storeSetKeypadSoundVolume(newVal);
   };
 
   const toggleMemoryMode = () => {

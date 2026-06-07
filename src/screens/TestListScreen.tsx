@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TASK_GROUPS, TASKS } from '../data/tasks';
+import { TASK_GROUPS, TASKS, REVIEW_TASK_ID } from '../data/tasks';
 import { useLocale } from '../i18n/LocaleContext';
 import { getTaskConfigs, getDailyStats, getWrongExamples, getSessions, type TaskConfig, type DailyStat } from '../data/store';
 
@@ -247,7 +247,7 @@ export default function TestListScreen() {
                             <div className="task-name">{t(`task.${task.id}`)}</div>
                             <div className="task-example">{task.example}</div>
                           </div>
-                          {task.id === 56 ? (
+                          {task.id === REVIEW_TASK_ID ? (
                             <div className="task-stats">
                               <span className="task-best">❌ {wrongCount}</span>
                             </div>

@@ -18,10 +18,10 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
     if (this.state.error) {
       return (
         <div className="app-container" style={{ justifyContent: 'center', alignItems: 'center', padding: 40, textAlign: 'center' }}>
-          <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>Что-то пошло не так</div>
+          <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>Something went wrong</div>
           <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>{this.state.error.message}</div>
           <button className="btn-primary" onClick={() => { this.setState({ error: null }); window.location.hash = '#/'; window.location.reload(); }}>
-            На главную
+            Go home
           </button>
         </div>
       );

@@ -25,32 +25,45 @@ export default function TestResultScreen() {
     ? Math.round((session.correctCount / session.totalCount) * 100)
     : 0;
 
+  const emojiPools: Record<string, string[]> = {
+    awful: ['😤', '🤬', '😡'],
+    bad: ['😰', '😢', '😞', '😩'],
+    mediocre: ['😐', '😑', '🤨', '🫤'],
+    okay: ['🙃', '🙂', '😌', '😏'],
+    good: ['😊', '😃', '😁', '😄'],
+    perfect: ['🥳', '🤩', '😍', '🥹'],
+  };
+
+  function pick<T>(arr: T[]): T {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
   let statusEmoji: string;
   let statusText: string;
   let statusColor: string;
 
   if (pct === 0) {
-    statusEmoji = '🤬';
-    statusText = t('result.giveUp');
+    statusEmoji = pick(emojiPools.awful);
+    statusText = t('result.awful');
     statusColor = '#dc2626';
   } else if (pct < 25) {
-    statusEmoji = '😰';
-    statusText = t('result.repeat');
+    statusEmoji = pick(emojiPools.bad);
+    statusText = t('result.bad');
     statusColor = '#f97316';
   } else if (pct < 50) {
-    statusEmoji = '😐';
-    statusText = t('result.normal');
+    statusEmoji = pick(emojiPools.mediocre);
+    statusText = t('result.mediocre');
     statusColor = '#eab308';
   } else if (pct < 75) {
-    statusEmoji = '🙂';
-    statusText = t('result.good');
+    statusEmoji = pick(emojiPools.okay);
+    statusText = t('result.okay');
     statusColor = '#22c55e';
   } else if (pct < 100) {
-    statusEmoji = '😊';
-    statusText = t('result.excellent');
+    statusEmoji = pick(emojiPools.good);
+    statusText = t('result.good');
     statusColor = '#16a34a';
   } else {
-    statusEmoji = '🥳';
+    statusEmoji = pick(emojiPools.perfect);
     statusText = t('result.perfect');
     statusColor = '#6366f1';
   }

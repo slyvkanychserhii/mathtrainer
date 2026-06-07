@@ -1,5 +1,7 @@
 export type GroupId = 'single' | 'two_one' | 'two_two' | 'three_one' | 'three_two' | 'three_three' | 'multiply' | 'review';
 
+export const REVIEW_TASK_ID = 56;
+
 interface TaskDef {
   id: number;
   name: string;

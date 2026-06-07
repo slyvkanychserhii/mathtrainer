@@ -1,8 +1,9 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getTaskById } from '../data/tasks';
+import { getTaskById, REVIEW_TASK_ID } from '../data/tasks';
 import { getExamplesCount, getSoundEnabled, getMemoryMode, getMemorySeconds, getTransitionPause, saveSession, generateId, getWrongExamples, addWrongExample, removeWrongExample, getKeypadSoundEnabled, getKeypadSoundVolume, type ExampleResult } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
+import { BASE_URL } from '../utils/constants';
 
 interface ExampleDef {
   a: number;
@@ -26,7 +27,6 @@ export default function TestScreen() {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const wrongBufferRef = useRef<AudioBuffer | null>(null);
   const clickBufferRef = useRef<AudioBuffer | null>(null);
-  const audioClickRef = useRef<HTMLAudioElement | null>(null);
   const keypadSoundEnabledRef = useRef(true);
   const keypadSoundVolumeRef = useRef(0.3);
 
@@ -38,7 +38,7 @@ export default function TestScreen() {
     return task.generate() || { a: 1, op: '+', b: 1, answer: 2 };
   }
 
-  const isReview = taskId === '56';
+  const isReview = Number(taskId) === REVIEW_TASK_ID;
   const [examples, setExamples] = useState<ExampleDef[]>(() => {
     if (isReview) return [];
     const n = getExamplesCount();
@@ -60,12 +60,21 @@ export default function TestScreen() {
   const [transitioning, setTransitioning] = useState(() => isReview ? true : !getMemoryMode());
   const [hidden, setHidden] = useState(false);
   const [showIntro, setShowIntro] = useState(() => isReview ? false : getMemoryMode());
-  const [noMistakes, setNoMistakes] = useState(false);
+  const [memoryEmojiIdx, setMemoryEmojiIdx] = useState(0);
+  const [fingerPhase, setFingerPhase] = useState<'rest' | 'rising' | 'tapping' | 'releasing' | 'retreating'>('rest');
+  const cycleRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [noMistakes, setNoMistakes] = useState(() => isReview ? getWrongExamples().length === 0 : false);
+  const noMistakesRef = useRef(isReview ? getWrongExamples().length === 0 : false);
+  const memoryEmojis = ['🙈', '🙉'];
   const memoryModeRef = useRef(false);
   const memorySecondsRef = useRef(1);
   const transitionPauseRef = useRef(1);
-  const noMistakesRef = useRef(false);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearCycles = useCallback(() => {
+    cycleRef.current.forEach(t => clearTimeout(t));
+    cycleRef.current = [];
+  }, []);
 
   const startHideTimer = useCallback(() => {
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
@@ -75,9 +84,36 @@ export default function TestScreen() {
   }, [feedback]);
 
   const handleReveal = useCallback(() => {
+    clearCycles();
     setHidden(false);
     startHideTimer();
-  }, [startHideTimer]);
+  }, [startHideTimer, clearCycles]);
+
+  useEffect(() => {
+    if (!hidden) { clearCycles(); return; }
+
+    setMemoryEmojiIdx(0);
+    setFingerPhase('rest');
+
+    const runCycle = () => {
+      const t1 = setTimeout(() => setFingerPhase('rising'), 0);
+      const t2 = setTimeout(() => setFingerPhase('tapping'), 900);
+      const t3 = setTimeout(() => {
+        setFingerPhase('releasing');
+        setMemoryEmojiIdx(prev => (prev + 1) % memoryEmojis.length);
+      }, 1200);
+      const t4 = setTimeout(() => setFingerPhase('retreating'), 1400);
+      const t5 = setTimeout(() => {
+        setMemoryEmojiIdx(prev => (prev + 1) % memoryEmojis.length);
+      }, 2100);
+      const t6 = setTimeout(runCycle, 2600);
+      cycleRef.current = [t1, t2, t3, t4, t5, t6];
+    };
+
+    const startTimer = setTimeout(runCycle, 50);
+    cycleRef.current = [startTimer];
+    return clearCycles;
+  }, [hidden, clearCycles]);
 
   const handleBack = useCallback(() => {
     if (resultsRef.current.length > 0 && !window.confirm(t('test.confirmExit'))) return;
@@ -174,21 +210,15 @@ export default function TestScreen() {
     if (!keypadSoundEnabledRef.current) return;
     const ctx = audioCtxRef.current;
     const buf = clickBufferRef.current;
-    const vol = keypadSoundVolumeRef.current;
-    if (ctx && buf) {
-      if (ctx.state === 'suspended') ctx.resume();
-      const gain = ctx.createGain();
-      gain.gain.value = vol;
-      const source = ctx.createBufferSource();
-      source.buffer = buf;
-      source.connect(gain);
-      gain.connect(ctx.destination);
-      source.start(0);
-    } else if (audioClickRef.current) {
-      audioClickRef.current.volume = vol;
-      audioClickRef.current.currentTime = 0;
-      audioClickRef.current.play();
-    }
+    if (!ctx || !buf) return;
+    if (ctx.state === 'suspended') ctx.resume();
+    const gain = ctx.createGain();
+    gain.gain.value = keypadSoundVolumeRef.current;
+    const source = ctx.createBufferSource();
+    source.buffer = buf;
+    source.connect(gain);
+    gain.connect(ctx.destination);
+    source.start(0);
   }, []);
 
   const handleKeyPress = useCallback((key: string) => {
@@ -248,21 +278,18 @@ export default function TestScreen() {
       configRef.current = { count: getExamplesCount() };
     }
 
-    const base = import.meta.env.BASE_URL || '/';
-    audioCorrectRef.current = new Audio(`${base}sounds/correct.wav`);
-    audioReloadRef.current = new Audio(`${base}sounds/reload.wav`);
-    audioClickRef.current = new Audio(`${base}sounds/click.wav`);
+    audioCorrectRef.current = new Audio(`${BASE_URL}sounds/correct.wav`);
+    audioReloadRef.current = new Audio(`${BASE_URL}sounds/reload.wav`);
     audioCorrectRef.current.volume = 0.6;
     audioReloadRef.current.volume = 0.5;
-    audioClickRef.current.volume = 0.3;
     audioCorrectRef.current.load();
     audioReloadRef.current.load();
 
     const ac = new AbortController();
     audioCtxRef.current = new AudioContext();
     Promise.all([
-      fetch(`${base}sounds/wrong.wav`, { signal: ac.signal }).then(r => r.arrayBuffer()).then(buf => audioCtxRef.current!.decodeAudioData(buf)).then(buf => { wrongBufferRef.current = buf; }),
-      fetch(`${base}sounds/click.wav`, { signal: ac.signal }).then(r => r.arrayBuffer()).then(buf => audioCtxRef.current!.decodeAudioData(buf)).then(buf => { clickBufferRef.current = buf; }),
+      fetch(`${BASE_URL}sounds/wrong.wav`, { signal: ac.signal }).then(r => r.arrayBuffer()).then(buf => audioCtxRef.current!.decodeAudioData(buf)).then(buf => { wrongBufferRef.current = buf; }),
+      fetch(`${BASE_URL}sounds/click.wav`, { signal: ac.signal }).then(r => r.arrayBuffer()).then(buf => audioCtxRef.current!.decodeAudioData(buf)).then(buf => { clickBufferRef.current = buf; }),
     ]).catch(() => {});
 
     return () => {
@@ -307,8 +334,9 @@ export default function TestScreen() {
           <button className="back-btn" onClick={handleBack}>{t('back')}</button>
           <span className="page-header-title">{t('test.title')}</span>
         </div>
-        <div className="empty-state" style={{ flex: 1 }}>
-          <div className="empty-text">{t('mistakes.empty')}</div>
+        <div className="memory-intro">
+          <div className="memory-intro-emoji">🎉</div>
+          <div className="memory-intro-text">{t('mistakes.empty')}</div>
         </div>
       </div>
     );
@@ -325,6 +353,7 @@ export default function TestScreen() {
 
       {showIntro ? (
         <div className="memory-intro">
+          <div className="memory-intro-emoji">🧠</div>
           <div className="memory-intro-text">{t('test.memoryHint')}</div>
           <button className="memory-intro-btn" onClick={() => {
             setShowIntro(false);
@@ -348,7 +377,10 @@ export default function TestScreen() {
               <div className="expression-area">
                 <div className={shaking ? 'shake' : bouncing ? 'drop-bounce' : ''}>
                   {hidden && memoryModeRef.current ? (
-                    <div className="expression-memory-icon" onClick={handleReveal}>🫣</div>
+                    <div className="expression-memory-icon" onClick={handleReveal}>
+                      {memoryEmojis[memoryEmojiIdx]}
+                      <span className={`memory-tap-icon phase-${fingerPhase}`}>👆</span>
+                    </div>
                   ) : (
                     <div className={`expression-text ${transitioning ? 'expression-text-hidden' : ''}`}>{example.a} {example.op} {example.b}</div>
                   )}
@@ -383,13 +415,13 @@ export default function TestScreen() {
             {['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'del', 'ok'].map(key => {
               if (key === 'ok') {
                 return (
-                  <button key="ok" className="num-key submit-key" onPointerDown={() => handleKeyPress('ok')}>
+                  <button key="ok" className="num-key submit-key" onPointerDown={e => { e.preventDefault(); handleKeyPress('ok'); }}>
                     {t('numpad.ok')}
                   </button>
                 );
               }
               return (
-                <button key={key} className="num-key" onPointerDown={() => handleKeyPress(key)}>
+                <button key={key} className="num-key" onPointerDown={e => { e.preventDefault(); handleKeyPress(key); }}>
                   {key === 'del' ? t('numpad.delete') : key}
                 </button>
               );

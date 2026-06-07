@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { setPin, hasPin, checkPin, getKeypadSoundEnabled, getKeypadSoundVolume } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
+import { BASE_URL } from '../utils/constants';
 
 export default function PinScreen() {
   const navigate = useNavigate();
@@ -13,7 +14,6 @@ export default function PinScreen() {
   const { t } = useLocale();
   const audioCtxRef = useRef<AudioContext | null>(null);
   const clickBufferRef = useRef<AudioBuffer | null>(null);
-  const audioClickRef = useRef<HTMLAudioElement | null>(null);
   const keypadSoundEnabledRef = useRef(true);
   const keypadSoundVolumeRef = useRef(0.3);
 
@@ -22,14 +22,9 @@ export default function PinScreen() {
     keypadSoundEnabledRef.current = getKeypadSoundEnabled();
     keypadSoundVolumeRef.current = getKeypadSoundVolume();
 
-    const base = import.meta.env.BASE_URL || '/';
-    audioClickRef.current = new Audio(`${base}sounds/click.wav`);
-    audioClickRef.current.volume = 0.3;
-    audioClickRef.current.load();
-
     const ac = new AbortController();
     audioCtxRef.current = new AudioContext();
-    fetch(`${base}sounds/click.wav`, { signal: ac.signal })
+    fetch(`${BASE_URL}sounds/click.wav`, { signal: ac.signal })
       .then(r => r.arrayBuffer())
       .then(buf => audioCtxRef.current!.decodeAudioData(buf))
       .then(buf => { clickBufferRef.current = buf; })
@@ -45,21 +40,15 @@ export default function PinScreen() {
     if (!keypadSoundEnabledRef.current) return;
     const ctx = audioCtxRef.current;
     const buf = clickBufferRef.current;
-    const vol = keypadSoundVolumeRef.current;
-    if (ctx && buf) {
-      if (ctx.state === 'suspended') ctx.resume();
-      const gain = ctx.createGain();
-      gain.gain.value = vol;
-      const source = ctx.createBufferSource();
-      source.buffer = buf;
-      source.connect(gain);
-      gain.connect(ctx.destination);
-      source.start(0);
-    } else if (audioClickRef.current) {
-      audioClickRef.current.volume = vol;
-      audioClickRef.current.currentTime = 0;
-      audioClickRef.current.play();
-    }
+    if (!ctx || !buf) return;
+    if (ctx.state === 'suspended') ctx.resume();
+    const gain = ctx.createGain();
+    gain.gain.value = keypadSoundVolumeRef.current;
+    const source = ctx.createBufferSource();
+    source.buffer = buf;
+    source.connect(gain);
+    gain.connect(ctx.destination);
+    source.start(0);
   }, []);
 
   const triggerShake = useCallback(() => {
@@ -141,14 +130,14 @@ export default function PinScreen() {
           {[['1','2','3'],['4','5','6'],['7','8','9']].map((row, ri) => (
             <div key={ri} className="pin-numpad-row">
               {row.map(key => (
-                <button key={key} className="pin-num-key" onPointerDown={() => handleKeyPress(key)}>{key}</button>
+                <button key={key} className="pin-num-key" onPointerDown={e => { e.preventDefault(); handleKeyPress(key); }}>{key}</button>
               ))}
             </div>
           ))}
           <div className="pin-numpad-row">
             <div className="pin-num-spacer" />
-            <button className="pin-num-key" onPointerDown={() => handleKeyPress('0')}>0</button>
-            <button className="pin-num-key" onPointerDown={() => handleKeyPress('del')}>{t('numpad.delete')}</button>
+            <button className="pin-num-key" onPointerDown={e => { e.preventDefault(); handleKeyPress('0'); }}>0</button>
+            <button className="pin-num-key" onPointerDown={e => { e.preventDefault(); handleKeyPress('del'); }}>{t('numpad.delete')}</button>
           </div>
         </div>
       </div>

@@ -47,7 +47,7 @@ const ru = {
   'empty.askParent': 'Попросите родителя включить задания в настройках',
   'home.howToChangeTasks': 'Нажмите «Настройки» вверху, чтобы изменить список заданий',
 
-  'task.new': 'Новый',
+  'task.new': 'Никогда',
 
 
   'numpad.ok': 'OK',
@@ -218,7 +218,7 @@ const en: typeof ru = {
   'empty.askParent': 'Ask a parent to enable tasks in settings',
   'home.howToChangeTasks': 'Tap «Settings» at the top to change the task list',
 
-  'task.new': 'New',
+  'task.new': 'Never',
 
 
   'numpad.ok': 'OK',
@@ -388,7 +388,7 @@ const es: typeof ru = {
   'empty.askParent': 'Pide a un padre que active las tareas en ajustes',
   'home.howToChangeTasks': 'Toca «Ajustes» arriba para cambiar la lista de tareas',
 
-  'task.new': 'Nuevo',
+  'task.new': 'Nunca',
 
 
   'feedback.correctAnswer': 'Correcto: {answer}',
@@ -553,7 +553,7 @@ const fr: typeof ru = {
   'empty.askParent': 'Demandez à un parent d\'activer les exercices dans les paramètres',
   'home.howToChangeTasks': 'Appuyez sur «Paramètres» en haut pour modifier la liste des exercices',
 
-  'task.new': 'Nouveau',
+  'task.new': 'Jamais',
 
 
   'feedback.correctAnswer': 'Correct : {answer}',
@@ -718,7 +718,7 @@ const de: typeof ru = {
   'empty.askParent': 'Bitte Eltern, die Aufgaben in den Einstellungen zu aktivieren',
   'home.howToChangeTasks': 'Tippe oben auf «Einstellungen», um die Aufgabenliste zu ändern',
 
-  'task.new': 'Neu',
+  'task.new': 'Nie',
 
 
   'feedback.correctAnswer': 'Richtig: {answer}',
@@ -883,7 +883,7 @@ const it: typeof ru = {
   'empty.askParent': 'Chiedi a un genitore di attivare gli esercizi nelle impostazioni',
   'home.howToChangeTasks': 'Tocca «Impostazioni» in alto per cambiare la lista degli esercizi',
 
-  'task.new': 'Nuovo',
+  'task.new': 'Mai',
 
 
   'feedback.correctAnswer': 'Corretto: {answer}',
@@ -1048,7 +1048,7 @@ const pt: typeof ru = {
   'empty.askParent': 'Peça a um responsável para ativar as tarefas nas configurações',
   'home.howToChangeTasks': 'Toque em «Configurações» acima para alterar a lista de tarefas',
 
-  'task.new': 'Novo',
+  'task.new': 'Nunca',
 
 
   'feedback.correctAnswer': 'Correto: {answer}',
@@ -1213,7 +1213,7 @@ const uk: typeof ru = {
   'empty.askParent': 'Попросіть батьків увімкнути завдання в налаштуваннях',
   'home.howToChangeTasks': 'Натисніть «Налаштування» зверху, щоб змінити список завдань',
 
-  'task.new': 'Новий',
+  'task.new': 'Ніколи',
 
 
   'feedback.correctAnswer': 'Правильно: {answer}',

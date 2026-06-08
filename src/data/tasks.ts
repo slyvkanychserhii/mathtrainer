@@ -1,6 +1,4 @@
-export type GroupId = 'single' | 'two_one' | 'two_two' | 'three_one' | 'three_two' | 'three_three' | 'multiply' | 'review';
-
-export const REVIEW_TASK_ID = 56;
+export type GroupId = 'single' | 'two_one' | 'two_two' | 'three_one' | 'three_two' | 'three_three' | 'multiply';
 
 interface TaskDef {
   id: number;
@@ -30,7 +28,6 @@ export const TASK_GROUPS: { id: GroupId; name: string; range: [number, number] }
   { id: 'three_two', name: 'СЛОЖЕНИЕ И ВЫЧИТАНИЕ: ТРЁХЗНАЧНЫЕ + ДВУЗНАЧНЫЕ (3–4 КЛАСС)', range: [19, 26] },
   { id: 'three_three', name: 'СЛОЖЕНИЕ И ВЫЧИТАНИЕ: ТРЁХЗНАЧНЫЕ + ТРЁХЗНАЧНЫЕ (4 КЛАСС)', range: [27, 37] },
   { id: 'multiply', name: 'УМНОЖЕНИЕ И ДЕЛЕНИЕ: ТАБЛИЦА УМНОЖЕНИЯ (2–3 КЛАСС)', range: [38, 55] },
-  { id: 'review', name: 'РАБОТА НАД ОШИБКАМИ', range: [56, 56] },
 ];
 
 export const TASKS: TaskDef[] = [
@@ -576,10 +573,6 @@ export const TASKS: TaskDef[] = [
       if (a <= 81) return { a, op: '÷', b: divisor, answer: quotient };
       return null;
     })
-  },
-  {
-    id: 56, name: 'Работа над ошибками', example: '?', group: 'review',
-    generate: () => null,
   },
 ];
 

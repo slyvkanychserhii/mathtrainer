@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TASK_GROUPS, TASKS, REVIEW_TASK_ID } from '../data/tasks';
+import { TASKS } from '../data/tasks';
 import { useLocale } from '../i18n/LocaleContext';
-import { getTaskConfigs, getDailyStats, getWrongExamples, getSessions, type TaskConfig, type DailyStat } from '../data/store';
+import { getTaskConfigs, getDailyStats, getSessions, type TaskConfig, type DailyStat } from '../data/store';
 
 const COL_W = 12;
 
@@ -11,7 +11,6 @@ export default function TestListScreen() {
   const { t } = useLocale();
   const [configs, setConfigs] = useState<TaskConfig[] | null>(null);
   const [lastDates, setLastDates] = useState<Record<number, string | null>>({});
-  const [wrongCount, setWrongCount] = useState(0);
   const [dailyStats, setDailyStats] = useState<DailyStat[] | null>(null);
   const [containerW, setContainerW] = useState(Math.min(window.innerWidth, 500));
 
@@ -29,7 +28,6 @@ export default function TestListScreen() {
       }
     }
     setLastDates(lastD);
-    setWrongCount(getWrongExamples().length);
   }, []);
 
   useEffect(() => {
@@ -133,6 +131,14 @@ export default function TestListScreen() {
     return cfg?.enabled;
   });
 
+  const sortedTasks = [...enabledTasks].sort((a, b) => {
+    const dateA = lastDates[a.id] ?? '';
+    const dateB = lastDates[b.id] ?? '';
+    if (dateA < dateB) return -1;
+    if (dateA > dateB) return 1;
+    return a.id - b.id;
+  });
+
   return (
     <div className="app-container">
       <div className="header">
@@ -228,43 +234,30 @@ export default function TestListScreen() {
               <div className="empty-subtext">{t('empty.askParent')}</div>
             </div>
           ) : (
-            TASK_GROUPS.map(group => {
-              const groupTasks = enabledTasks.filter(t => t.group === group.id);
-              if (groupTasks.length === 0) return null;
+            sortedTasks.map(task => {
+              const lastDate = lastDates[task.id];
               return (
-                <div key={group.id} className="group-section">
-                  <div className="group-title">{t(`group.${group.id}`)}</div>
-                  {groupTasks.map(task => {
-                    const lastDate = lastDates[task.id];
-                    return (
-                      <button
-                        key={task.id}
-                        className="task-card"
-                        onClick={() => navigate(`/test/${task.id}`)}
-                      >
-                        <div className="task-left">
-                          <div className="task-info">
-                            <div className="task-name">{t(`task.${task.id}`)}</div>
-                            <div className="task-example">{task.example}</div>
-                          </div>
-                          {task.id === REVIEW_TASK_ID ? (
-                            <div className="task-stats">
-                              <span className="task-best">❌ {wrongCount}</span>
-                            </div>
-                          ) : lastDate ? (
-                            <div className="task-stats">
-                              <span className="task-recency" style={{ color: getPlayColor(lastDate) }}>{getRecencyLabel(lastDate)}</span>
-                            </div>
-                          ) : (
-                            <div className="task-stats">
-                              <span className="task-new">{t('task.new')}</span>
-                            </div>
-                          )}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
+                <button
+                  key={task.id}
+                  className="task-card"
+                  onClick={() => navigate(`/test/${task.id}`)}
+                >
+                  <div className="task-left">
+                    <div className="task-info">
+                      <div className="task-name">{t(`task.${task.id}`)}</div>
+                      <div className="task-example">{task.example}</div>
+                    </div>
+                    {lastDate ? (
+                      <div className="task-stats">
+                        <span className="task-recency" style={{ color: getPlayColor(lastDate) }}>{getRecencyLabel(lastDate)}</span>
+                      </div>
+                    ) : (
+                      <div className="task-stats">
+                        <span className="task-new">{t('task.new')}</span>
+                      </div>
+                    )}
+                  </div>
+                </button>
               );
             })
           )}

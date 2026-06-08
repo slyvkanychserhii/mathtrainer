@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getTaskById, REVIEW_TASK_ID } from '../data/tasks';
-import { getExamplesCount, getSoundEnabled, getMemoryMode, getMemorySeconds, getTransitionPause, saveSession, generateId, getWrongExamples, addWrongExample, removeWrongExample, getKeypadSoundEnabled, getKeypadSoundVolume, type ExampleResult } from '../data/store';
+import { getTaskById } from '../data/tasks';
+import { getExamplesCount, getSoundEnabled, getMemoryMode, getMemorySeconds, getTransitionPause, saveSession, generateId, getKeypadSoundEnabled, getKeypadSoundVolume, type ExampleResult } from '../data/store';
 import { useLocale } from '../i18n/LocaleContext';
 import { BASE_URL } from '../utils/constants';
 
@@ -38,9 +38,7 @@ export default function TestScreen() {
     return task.generate() || { a: 1, op: '+', b: 1, answer: 2 };
   }
 
-  const isReview = Number(taskId) === REVIEW_TASK_ID;
   const [examples, setExamples] = useState<ExampleDef[]>(() => {
-    if (isReview) return [];
     const n = getExamplesCount();
     const initial: ExampleDef[] = [];
     let last: ExampleDef | null = null;
@@ -57,14 +55,12 @@ export default function TestScreen() {
   const [locked, setLocked] = useState(false);
   const [shaking, setShaking] = useState(false);
   const [bouncing, setBouncing] = useState(false);
-  const [transitioning, setTransitioning] = useState(() => isReview ? true : !getMemoryMode());
+  const [transitioning, setTransitioning] = useState(() => !getMemoryMode());
   const [hidden, setHidden] = useState(false);
-  const [showIntro, setShowIntro] = useState(() => isReview ? false : getMemoryMode());
+  const [showIntro, setShowIntro] = useState(() => getMemoryMode());
   const [memoryEmojiIdx, setMemoryEmojiIdx] = useState(0);
   const [fingerPhase, setFingerPhase] = useState<'rest' | 'rising' | 'tapping' | 'releasing' | 'retreating'>('rest');
   const cycleRef = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const [noMistakes, setNoMistakes] = useState(() => isReview ? getWrongExamples().length === 0 : false);
-  const noMistakesRef = useRef(isReview ? getWrongExamples().length === 0 : false);
   const memoryEmojis = ['🙈', '🙉'];
   const memoryModeRef = useRef(false);
   const memorySecondsRef = useRef(1);
@@ -181,9 +177,6 @@ export default function TestScreen() {
       setFeedback('correct');
       setBouncing(true);
       setTimeout(() => setBouncing(false), 400);
-      if (isReview) {
-        removeWrongExample({ a: example.a, op: example.op, b: example.b });
-      }
     } else {
       if (soundEnabledRef.current) {
         const ctx = audioCtxRef.current;
@@ -198,13 +191,12 @@ export default function TestScreen() {
       }
       setFeedback('wrong');
       triggerShake();
-      addWrongExample(result);
     }
     setTimeout(() => {
       setLocked(false);
       goToNext();
     }, isCorrect ? 500 : 1500);
-  }, [input, locked, example, triggerShake, goToNext, isReview, removeWrongExample]);
+  }, [input, locked, example, triggerShake, goToNext]);
 
   const playClick = useCallback(() => {
     if (!keypadSoundEnabledRef.current) return;
@@ -249,34 +241,7 @@ export default function TestScreen() {
     keypadSoundEnabledRef.current = getKeypadSoundEnabled();
     keypadSoundVolumeRef.current = getKeypadSoundVolume();
 
-    if (isReview) {
-      const wrong = getWrongExamples();
-      if (wrong.length === 0) {
-        setNoMistakes(true);
-        noMistakesRef.current = true;
-        configRef.current = { count: 0 };
-      } else {
-        if (mm) setShowIntro(true);
-        const seen = new Set<string>();
-        const unique = wrong.filter(ex => {
-          const key = `${ex.a}|${ex.op}|${ex.b}`;
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        });
-        const count = Math.min(getExamplesCount(), unique.length);
-        const shuffled = [...unique];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        shuffled.length = Math.min(shuffled.length, count);
-        setExamples(shuffled.map(ex => ({ a: ex.a, op: ex.op, b: ex.b, answer: ex.correctAnswer })));
-        configRef.current = { count };
-      }
-    } else {
-      configRef.current = { count: getExamplesCount() };
-    }
+    configRef.current = { count: getExamplesCount() };
 
     audioCorrectRef.current = new Audio(`${BASE_URL}sounds/correct.wav`);
     audioReloadRef.current = new Audio(`${BASE_URL}sounds/reload.wav`);
@@ -300,7 +265,6 @@ export default function TestScreen() {
 
   useEffect(() => {
     if (showIntro) return;
-    if (noMistakesRef.current) return;
     const timer = setTimeout(() => {
       if (soundEnabledRef.current && audioReloadRef.current) {
         audioReloadRef.current.currentTime = 0;
@@ -321,26 +285,11 @@ export default function TestScreen() {
   }, [currentIndex]);
 
   useEffect(() => {
-    if (showIntro || transitioning || noMistakesRef.current) return;
+    if (showIntro || transitioning) return;
     setHidden(false);
     startHideTimer();
     return () => { if (hideTimerRef.current) clearTimeout(hideTimerRef.current); };
   }, [currentIndex, feedback, showIntro, transitioning, startHideTimer]);
-
-  if (noMistakes) {
-    return (
-      <div className="app-container">
-        <div className="page-header">
-          <button className="back-btn" onClick={handleBack}>{t('back')}</button>
-          <span className="page-header-title">{t('test.title')}</span>
-        </div>
-        <div className="memory-intro">
-          <div className="memory-intro-emoji">🎉</div>
-          <div className="memory-intro-text">{t('mistakes.empty')}</div>
-        </div>
-      </div>
-    );
-  }
 
   if (!example) return null;
 

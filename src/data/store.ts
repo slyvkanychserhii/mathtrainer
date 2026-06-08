@@ -52,7 +52,6 @@ const KEYS = {
   TRANSITION_PAUSE: 'mathtrainer_transition_pause',
   KEYPAD_SOUND_ENABLED: 'mathtrainer_keypad_sound',
   KEYPAD_SOUND_VOLUME: 'mathtrainer_keypad_volume',
-  WRONG_EXAMPLES: 'mathtrainer_wrong_examples',
 };
 
 function getItem(key: string): string | null {
@@ -226,37 +225,6 @@ export function generateId(): string {
 
 export function clearSessions(): void {
   removeItem(KEYS.SESSIONS);
-  removeItem(KEYS.WRONG_EXAMPLES);
-}
-
-export function getWrongExamples(): ExampleResult[] {
-  const raw = getItem(KEYS.WRONG_EXAMPLES);
-  if (!raw) return [];
-  try { return JSON.parse(raw); } catch { return []; }
-}
-
-export function addWrongExample(example: ExampleResult): void {
-  const examples = getWrongExamples();
-  const key = `${example.a}|${example.op}|${example.b}`;
-  const idx = examples.findIndex(e => `${e.a}|${e.op}|${e.b}` === key);
-  if (idx >= 0) {
-    const existing = examples.splice(idx, 1)[0];
-    examples.unshift(existing);
-  } else {
-    examples.unshift(example);
-    if (examples.length > 500) examples.length = 500;
-  }
-  setItem(KEYS.WRONG_EXAMPLES, JSON.stringify(examples));
-}
-
-export function removeWrongExample(example: { a: number; op: string; b: number }): void {
-  const examples = getWrongExamples();
-  const key = `${example.a}|${example.op}|${example.b}`;
-  const idx = examples.findIndex(e => `${e.a}|${e.op}|${e.b}` === key);
-  if (idx >= 0) {
-    examples.splice(idx, 1);
-    setItem(KEYS.WRONG_EXAMPLES, JSON.stringify(examples));
-  }
 }
 
 export function getDailyStats(): DailyStat[] {
